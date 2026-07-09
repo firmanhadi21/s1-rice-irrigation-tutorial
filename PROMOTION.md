@@ -11,6 +11,7 @@ Ready-to-use posts, visuals, alt-text, and tactics for promoting the
 - **Free & laptop-friendly** — Sentinel-1 is open data; models run on CPU, no GPU.
 - **Reproducible** — a trained model + sample AOI ship with the repo; one clone and you run.
 - **Open-source** — an alternative to proprietary S1/S2 fusion (e.g. CropSAR) via FuseTS/MOGPR.
+- **Multi-sensor** — paddy map & planting index come from Sentinel-1; irrigation performance fuses Sentinel-1 + Sentinel-2/Landsat optical + rainfall (CHIRPS) + ET.
 - **Real-world stakes** — food security + irrigation performance for Indonesia.
 - **Bilingual** — reaches the global EO community *and* Indonesian institutions.
 
@@ -40,7 +41,7 @@ Best order to use them:
 
 ## Launch thread — English
 
-**1/** 🌾🛰️ Free, laptop-friendly tutorial: turn Sentinel-1 radar into 3 operational products for rice & water management over Java, Indonesia — paddy map, planting index & irrigation performance. No GPU, fully reproducible, open-source. 🧵
+**1/** 🌾🛰️ Free, laptop-friendly tutorial over Java, Indonesia: paddy maps & planting index from Sentinel-1 radar — then fuse it with Sentinel-2 & Landsat optical + rainfall (CHIRPS) & ET to score irrigation performance. No GPU, reproducible, open-source. 🧵
 `[attach fig_consensus_2024_2025_stable.png]`
 
 **2/** Why radar? Rice has a distinctive VH backscatter signature — a flooding trough → canopy peak every season. Sentinel-1 sees it every 12 days, through clouds. That single signal drives everything.
@@ -48,12 +49,14 @@ Best order to use them:
 
 **3/** Product 1 — a multi-year *stable-paddy* consensus (~3.0M ha for Java), built with an SMOTE-balanced classifier on 29 VH phenology features. A cycle-based test then maps *active* paddy.
 
-**4/** Product 2 — planting index (1×/2×/3× cropping) straight from the time series, no fixed calendar. Product 3 — irrigation performance per tertiary block for DI Klambu: SI 0.83 / CU 0.94 / RI 0.98, flagging the 10 problem blocks out of 653.
+**4/** Product 2 — planting index (1×/2×/3× cropping) straight from the S1 time series, no fixed calendar.
+
+**5/** Product 3 — irrigation performance. Fuse Sentinel-1 (crop coefficient / Kc) with Sentinel-2 & Landsat optical and rainfall (CHIRPS) + reference ET in a per-block water balance → SI 0.83 / CU 0.94 / RI 0.98 for DI Klambu, flagging the 10 problem blocks out of 653.
 `[attach fig_irrigation_klambu_maps.png]`
 
-**5/** Everything runs on your laptop from a small sample AOI + a trained model that ships with the repo. Open-source alternative to proprietary S1/S2 fusion (via FuseTS/MOGPR).
+**6/** Everything runs on your laptop from a small sample AOI + a trained model that ships with the repo. Open-source alternative to proprietary S1/S2 fusion (via FuseTS/MOGPR).
 
-**6/** 📖 Full hands-on tutorial (EN + Bahasa Indonesia):
+**7/** 📖 Full hands-on tutorial (EN + Bahasa Indonesia):
 https://firmanhadi21.github.io/s1-rice-irrigation-tutorial/
 ⭐ Code: https://github.com/firmanhadi21/s1-rice-irrigation-tutorial
 RT if useful — feedback welcome!
@@ -63,13 +66,13 @@ RT if useful — feedback welcome!
 
 ## Launch thread — Bahasa Indonesia
 
-**1/** 🌾🛰️ Tutorial gratis & bisa jalan di laptop: ubah radar Sentinel-1 jadi 3 produk operasional untuk pangan & irigasi di Jawa — peta sawah, indeks pertanaman, & kinerja irigasi. Tanpa GPU, dapat direproduksi, open-source. 🧵
+**1/** 🌾🛰️ Tutorial gratis & bisa jalan di laptop untuk pangan & irigasi di Jawa: peta sawah & indeks pertanaman dari radar Sentinel-1 — lalu difusikan dengan optik Sentinel-2 & Landsat + curah hujan (CHIRPS) & ET untuk menilai kinerja irigasi. Tanpa GPU, dapat direproduksi, open-source. 🧵
 `[lampirkan fig_consensus_2024_2025_stable.png]`
 
 **2/** Padi punya tanda hamburan-balik VH yang khas: lembah genangan → puncak kanopi tiap musim. Sentinel-1 merekamnya tiap 12 hari, tembus awan. Sinyal itu jadi dasar semua produk.
 `[lampirkan fig_rice_vh_profile.png]`
 
-**3/** DI Klambu (653 petak tersier): SI 0.83, CU 0.94, RI 0.98 — sistem otomatis menandai 10 petak bermasalah di ujung hilir. Alih-alih cek 653 petak, BBWS cukup fokus ke 10.
+**3/** Kinerja irigasi DI Klambu (653 petak tersier) dari fusi S1 + optik S2/Landsat + curah hujan + ET: SI 0.83, CU 0.94, RI 0.98 — sistem otomatis menandai 10 petak bermasalah di ujung hilir. Alih-alih cek 653 petak, BBWS cukup fokus ke 10.
 `[lampirkan fig_irrigation_klambu_maps.png]`
 
 **4/** 📖 Tutorial lengkap (dwibahasa) + kode terbuka:
@@ -81,7 +84,7 @@ Cocok untuk mahasiswa, peneliti, & instansi (Kementan/PUPR/BBWS). Silakan sebark
 ## Standalone posts (reuse over the following weeks)
 
 - "You don't need a supercomputer to map rice. This runs on a laptop, CPU-only, from free Sentinel-1 radar. Full tutorial 👇 [link] `[fig_rice_vh_profile.png]`"
-- "Irrigation performance for 653 tertiary blocks, from satellites: SI 0.83 / CU 0.94 / RI 0.98 — and it points straight to the 10 problem blocks. [link] `[fig_irrigation_klambu_maps.png]`"
+- "Irrigation performance for 653 tertiary blocks by fusing Sentinel-1 + Sentinel-2/Landsat + rainfall + ET: SI 0.83 / CU 0.94 / RI 0.98 — and it points straight to the 10 problem blocks. [link] `[fig_irrigation_klambu_maps.png]`"
 - "Proprietary S1/S2 fusion (CropSAR) is great — but a national agency on a public budget needs open tools. Here's the same idea with open-source FuseTS/MOGPR. [link]"
 - "Peta sawah stabil Jawa ~3,0 juta ha, dari radar Sentinel-1 gratis. Metode + kode terbuka, dwibahasa. [link] `[fig_consensus_2024_2025_stable.png]`"
 
