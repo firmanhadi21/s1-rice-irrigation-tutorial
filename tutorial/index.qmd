@@ -8,7 +8,8 @@ subtitle: "A hands-on, reproducible tutorial over Java, Indonesia"
 :::
 
 This tutorial walks you, end to end, through a satellite workflow that turns **Sentinel-1 radar
-time series** into three operational products for water-resources management:
+time series** — fused, for irrigation performance, with **Sentinel-2/Landsat** optical and
+rainfall/ET — into three operational products for water-resources management:
 
 ::: {.grid}
 

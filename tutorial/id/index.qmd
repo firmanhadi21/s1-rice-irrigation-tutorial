@@ -8,7 +8,8 @@ subtitle: "Tutorial praktis dan dapat direproduksi untuk Pulau Jawa, Indonesia"
 :::
 
 Tutorial ini memandu Anda dari awal sampai akhir melalui alur kerja satelit yang mengubah **deret
-waktu radar Sentinel-1** menjadi tiga produk operasional untuk pengelolaan sumber daya air:
+waktu radar Sentinel-1** — yang untuk kinerja irigasi difusikan dengan optik **Sentinel-2/Landsat**
+dan curah hujan/ET — menjadi tiga produk operasional untuk pengelolaan sumber daya air:
 
 ::: {.grid}
 

@@ -6,7 +6,7 @@ project:
 
 website:
   title: "Sentinel-1 Rice & Irrigation Monitoring"
-  description: "Hands-on, reproducible workflow: paddy-field map, planting index, and irrigation performance from Sentinel-1 SAR over Java, Indonesia."
+  description: "Hands-on, reproducible workflow over Java, Indonesia: paddy-field map and planting index from Sentinel-1 SAR, plus multi-sensor irrigation performance (Sentinel-1 + Sentinel-2/Landsat + rainfall/ET)."
   reader-mode: true
   page-navigation: true
   navbar:

@@ -1,11 +1,13 @@
 # Sentinel-1 Rice & Irrigation Monitoring — Hands-on Tutorial
 
-A reproducible, laptop-friendly tutorial that turns free **Sentinel-1 radar** time series into three
-operational products for water-resources management over Java, Indonesia:
+A reproducible, laptop-friendly tutorial that turns free **Sentinel-1 radar** time series — fused, for
+irrigation performance, with **Sentinel-2/Landsat** optical and rainfall/ET — into three operational
+products for water-resources management over Java, Indonesia:
 
-- 🌾 **Paddy-field map** — VH phenology + SMOTE-balanced classifier + multi-year consensus
-- 📅 **Planting index** — data-driven cropping-cycle counting (1× / 2× / 3×)
-- 💧 **Irrigation performance** — Satisfaction (SI), Uniformity (CU), Reliability (RI) per tertiary block
+- 🌾 **Paddy-field map** — VH phenology + SMOTE-balanced classifier + multi-year consensus (Sentinel-1)
+- 📅 **Planting index** — data-driven cropping-cycle counting (1× / 2× / 3×) (Sentinel-1)
+- 💧 **Irrigation performance** — Satisfaction (SI), Uniformity (CU), Reliability (RI) per tertiary block,
+  from a water balance fusing Sentinel-1 + Sentinel-2/Landsat optical + rainfall (CHIRPS) + ET
 
 ## ▶️ Read it online
 

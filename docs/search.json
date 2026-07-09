@@ -130,7 +130,7 @@
     "href": "index.html",
     "title": "Rice & Irrigation Monitoring with Sentinel-1",
     "section": "",
-    "text": "🌐 English · Bahasa Indonesia →\nThis tutorial walks you, end to end, through a satellite workflow that turns Sentinel-1 radar time series into three operational products for water-resources management:",
+    "text": "🌐 English · Bahasa Indonesia →\nThis tutorial walks you, end to end, through a satellite workflow that turns Sentinel-1 radar time series — fused, for irrigation performance, with Sentinel-2/Landsat optical and rainfall/ET — into three operational products for water-resources management:",
     "crumbs": [
       "Overview"
     ]
@@ -257,7 +257,7 @@
     "href": "id/irrigation-performance.html#gagasannya",
     "title": "Kinerja irigasi",
     "section": "Gagasannya",
-    "text": "Gagasannya\nLangkah terakhir mengubah peta satelit menjadi indikator irigasi operasional untuk sebuah Daerah Irigasi (DI), dihitung per petak tersier. Tiga indeks standar (FAO / Bos 1985) merangkum seberapa baik jaringan mengantarkan air:\n\n\n\n\n\n\n\n\nIndeks\nMakna\nPertanyaan yang dijawab\n\n\n\n\nSI — Indeks Kepuasan\nkecukupan\nApakah tiap petak memperoleh air yang cukup?\n\n\nCU — Keseragaman Christiansen\nkeseragaman\nApakah air tersebar merata di seluruh DI?\n\n\nRI — Indeks Keandalan\nketergantungan\nApakah tiap petak tetap cukup dari waktu ke waktu?\n\n\n\nKita mendemonstrasikannya pada DI Klambu (Grobogan, Jawa Tengah; 653 petak tersier), yang batas petak dan hasil referensinya disertakan dalam repositori.",
+    "text": "Gagasannya\nLangkah terakhir mengubah peta satelit menjadi indikator irigasi operasional untuk sebuah Daerah Irigasi (DI), dihitung per petak tersier. Tiga indeks standar (FAO / Bos 1985) merangkum seberapa baik jaringan mengantarkan air:\n\n\n\n\n\n\n\n\nIndeks\nMakna\nPertanyaan yang dijawab\n\n\n\n\nSI — Indeks Kepuasan\nkecukupan\nApakah tiap petak memperoleh air yang cukup?\n\n\nCU — Keseragaman Christiansen\nkeseragaman\nApakah air tersebar merata di seluruh DI?\n\n\nRI — Indeks Keandalan\nketergantungan\nApakah tiap petak tetap cukup dari waktu ke waktu?\n\n\n\nKita mendemonstrasikannya pada DI Klambu (Grobogan, Jawa Tengah; 653 petak tersier), yang batas petak dan hasil referensinya disertakan dalam repositori.\n\n\n\n\n\n\nImportantYang didemonstrasikan bab ini vs metode penuh\n\n\n\nAgar dapat dijalankan di laptop, langkah-langkah di bawah menyusun neraca air dari Sentinel-1 (koefisien tanaman / Kc) ditambah curah hujan CHIRPS dan ET acuan. Metode operasional penuh juga memfusikan citra optik Sentinel-2 dan Landsat untuk memperkirakan ET / Kc secara lebih akurat — fusi multi-sensor itulah peningkatan versi produksi, sengaja tidak ditampilkan di bab praktik ini agar tetap dapat direproduksi di laptop.",
     "crumbs": [
       "Alur inti",
       "Kinerja irigasi"
@@ -444,7 +444,7 @@
     "href": "id/index.html",
     "title": "Pemantauan Sawah & Irigasi dengan Sentinel-1",
     "section": "",
-    "text": "🌐 English → · Bahasa Indonesia\nTutorial ini memandu Anda dari awal sampai akhir melalui alur kerja satelit yang mengubah deret waktu radar Sentinel-1 menjadi tiga produk operasional untuk pengelolaan sumber daya air:",
+    "text": "🌐 English → · Bahasa Indonesia\nTutorial ini memandu Anda dari awal sampai akhir melalui alur kerja satelit yang mengubah deret waktu radar Sentinel-1 — yang untuk kinerja irigasi difusikan dengan optik Sentinel-2/Landsat dan curah hujan/ET — menjadi tiga produk operasional untuk pengelolaan sumber daya air:",
     "crumbs": [
       "Ringkasan"
     ]
@@ -631,7 +631,7 @@
     "href": "irrigation-performance.html#the-idea",
     "title": "Irrigation performance",
     "section": "The idea",
-    "text": "The idea\nThe final step turns the satellite maps into operational irrigation indicators for a Daerah Irigasi (DI), computed per tertiary block (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:\n\n\n\n\n\n\n\n\nIndex\nMeaning\nQuestion it answers\n\n\n\n\nSI — Satisfaction Index\nadequacy\nIs each block getting enough water?\n\n\nCU — Christiansen Uniformity\nuniformity\nIs water spread evenly across the DI?\n\n\nRI — Reliability Index\ndependability\nDoes each block stay adequate over time?\n\n\n\nWe demonstrate on DI Klambu (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.",
+    "text": "The idea\nThe final step turns the satellite maps into operational irrigation indicators for a Daerah Irigasi (DI), computed per tertiary block (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:\n\n\n\n\n\n\n\n\nIndex\nMeaning\nQuestion it answers\n\n\n\n\nSI — Satisfaction Index\nadequacy\nIs each block getting enough water?\n\n\nCU — Christiansen Uniformity\nuniformity\nIs water spread evenly across the DI?\n\n\nRI — Reliability Index\ndependability\nDoes each block stay adequate over time?\n\n\n\nWe demonstrate on DI Klambu (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.\n\n\n\n\n\n\nImportantWhat this chapter demonstrates vs the full method\n\n\n\nTo stay laptop-runnable, the steps below build the water balance from Sentinel-1 (crop coefficient / Kc) plus CHIRPS rainfall and reference ET. The full operational method also fuses Sentinel-2 and Landsat optical imagery to estimate ET / Kc more accurately — that multi-sensor fusion is the production upgrade, kept out of this hands-on chapter so it remains reproducible on a laptop.",
     "crumbs": [
       "Core workflow",
       "Irrigation performance"

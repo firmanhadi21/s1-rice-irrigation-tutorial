@@ -22,6 +22,15 @@ baik jaringan mengantarkan air:
 Kita mendemonstrasikannya pada **DI Klambu** (Grobogan, Jawa Tengah; 653 petak tersier), yang batas
 petak dan hasil referensinya disertakan dalam repositori.
 
+::: {.callout-important}
+## Yang didemonstrasikan bab ini vs metode penuh
+Agar dapat dijalankan di laptop, langkah-langkah di bawah menyusun neraca air dari **Sentinel-1**
+(koefisien tanaman / Kc) ditambah **curah hujan CHIRPS dan ET acuan**. Metode operasional penuh juga
+**memfusikan citra optik Sentinel-2 dan Landsat** untuk memperkirakan ET / Kc secara lebih akurat —
+fusi multi-sensor itulah peningkatan versi produksi, sengaja tidak ditampilkan di bab praktik ini agar
+tetap dapat direproduksi di laptop.
+:::
+
 ## Langkah 1 — Kebutuhan air tanaman: peta Kc
 
 Fase tanam → **koefisien tanaman (Kc)** menautkan apa yang dilihat satelit ke berapa banyak air yang

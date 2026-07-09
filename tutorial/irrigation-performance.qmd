@@ -22,6 +22,15 @@ The final step turns the satellite maps into **operational irrigation indicators
 We demonstrate on **DI Klambu** (Grobogan, Central Java; 653 tertiary blocks), whose block
 boundaries and reference results ship with the repository.
 
+::: {.callout-important}
+## What this chapter demonstrates vs the full method
+To stay laptop-runnable, the steps below build the water balance from **Sentinel-1** (crop
+coefficient / Kc) plus **CHIRPS rainfall and reference ET**. The full operational method also
+**fuses Sentinel-2 and Landsat optical** imagery to estimate ET / Kc more accurately — that
+multi-sensor fusion is the production upgrade, kept out of this hands-on chapter so it remains
+reproducible on a laptop.
+:::
+
 ## Step 1 — Crop water demand: the Kc map
 
 Growth phase → **crop coefficient (Kc)** links what the satellite sees to how much water the crop
