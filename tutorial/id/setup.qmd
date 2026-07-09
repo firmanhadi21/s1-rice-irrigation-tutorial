@@ -1,0 +1,114 @@
+---
+title: "Persiapan"
+subtitle: "Lingkungan kerja, repositori, dan data sampel"
+---
+
+::: {.text-end}
+🌐 [English →](../setup.qmd) · **Bahasa Indonesia**
+:::
+
+## 1. Klon repositori
+
+Segala isi tutorial ini berada di repositori proyek, termasuk **model terlatih**, **batas petak
+tersier DI Klambu**, dan **keluaran indeks referensi** yang Anda perlukan.
+
+```bash
+git clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git
+cd s1-rice-irrigation-tutorial
+```
+
+## 2. Buat lingkungan kerja
+
+Model berjalan di **CPU** — tanpa GPU. Gunakan conda (disarankan) atau virtualenv biasa.
+
+```bash
+conda create -n s1rice python=3.10 -y
+conda activate s1rice
+
+pip install tensorflow rasterio geopandas rioxarray scikit-learn \
+            imbalanced-learn numpy pandas matplotlib scipy joblib \
+            earthengine-api requests
+```
+
+::: {.callout-tip}
+`rasterio` dan `geopandas` menarik GDAL sebagai dependensi. Jika pip kesulitan, pasang dari
+conda-forge saja: `conda install -c conda-forge rasterio geopandas rioxarray -y`.
+:::
+
+Paksa eksekusi hanya-CPU (menghindari masalah GPU/XLA) — skrip pelatihan/prediksi sudah menyetel ini,
+tetapi untuk penggunaan interaktif:
+
+```bash
+export CUDA_VISIBLE_DEVICES=-1
+```
+
+## 3. Apa yang disertakan repositori (data sampel Anda)
+
+Setelah mengklon, Anda sudah memiliki berkas-berkas ini — semuanya membuat alur kerja langsung bisa
+dijalankan:
+
+| Berkas | Digunakan pada |
+|---|---|
+| `model_files_paddy_vh/paddy_vh_model.keras` (+ `scaler.joblib`) | Prediksi sawah |
+| `model_files_paddy_vh/training_data_*.csv` | Pelatihan sawah (29 fitur VH + label) |
+| `data/training_points_paddy_binary.csv` | Referensi titik latih |
+| `2026/irrigation_performance/klambu.gpkg` | Petak tersier DI Klambu |
+| `2026/irrigation_performance/*_block_results.csv` | Referensi SI/CU/RI per petak |
+
+Satu-satunya yang belum ada adalah **tumpukan VH Sentinel-1** untuk AOI (terlalu besar untuk
+disertakan) — ambil pada langkah berikut.
+
+## 4. Ambil tumpukan Sentinel-1 sampel
+
+Sentinel-1 GRD bersifat gratis dan terbuka. Kita mengambil **tumpukan komposit VH 12-harian** kecil
+untuk DI Klambu langsung dari Google Earth Engine.
+
+Otentikasi sekali saja (akun gratis):
+
+```bash
+earthengine authenticate
+```
+
+::: {.callout-tip}
+## Di HPC / server tanpa layar (*headless*)
+Lewati login interaktif: letakkan **kunci akun layanan** (*service-account key*) bernama
+`ee-geodetic.json` di akar repositori (skrip mendeteksinya otomatis), atau berikan
+`--service-account-key /path/to/key.json`. Tanpa peramban.
+:::
+
+Lalu jalankan skrip pengambilan (tersedia di `tutorial/scripts/`):
+
+```bash
+cd tutorial/scripts
+python fetch_sample_aoi.py --year 2024 --start-period 7 --end-period 24 \
+    --out ../../data/sample/klambu_vh_2024.tif
+```
+
+Skrip ini menulis `data/sample/klambu_vh_2024.tif` — sebuah GeoTIFF multi-pita dengan satu pita per
+periode 12-harian, bernama `2024_Period_7 … 2024_Period_24`, pada resolusi 50 m. Verifikasi:
+
+```bash
+cd ../..
+gdalinfo data/sample/klambu_vh_2024.tif | head -20
+```
+
+::: {.callout-note}
+## Tidak punya akun Earth Engine?
+Seluruh alur kerja menerima **sembarang** GeoTIFF VH dengan pita periode 12-harian. Jika Anda
+memproses Sentinel-1 sendiri (mis. dengan ESA SNAP), cukup arahkan skrip ke tumpukan Anda sendiri.
+Konvensi penamaan pita adalah `<tahun>_Period_<n>`.
+:::
+
+## 5. Buat mask AOI (opsional tetapi disarankan)
+
+Sebagian besar skrip menerima `--mask` sehingga pemrosesan dibatasi pada daratan/AOI. Untuk sampel,
+Anda dapat menurunkannya dari batas DI Klambu:
+
+```bash
+# rasterisasi batas DI ke grid VH sebagai mask 0/1
+gdal_rasterize -burn 1 -tr 0.000449 0.000449 -a_nodata 0 \
+    -te 110.72 -7.10 110.94 -6.94 -ot Byte \
+    2026/irrigation_performance/klambu.gpkg data/sample/klambu_mask.tif
+```
+
+Anda sudah siap. Lanjut ke [**Peta sawah**](paddy-map.qmd).

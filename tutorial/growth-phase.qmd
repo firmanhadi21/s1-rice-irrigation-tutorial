@@ -3,6 +3,10 @@ title: "Going further: growth-phase mapping with S1+S2 fusion"
 subtitle: "Why radar alone struggles with phenology — and how optical fusion helps"
 ---
 
+::: {.text-end}
+🌐 **English** · [Bahasa Indonesia →](id/growth-phase.qmd)
+:::
+
 ## The limitation of VH-only phase
 
 The cycle counter in the [planting index](planting-index.qmd) chapter tells you *how many* cycles

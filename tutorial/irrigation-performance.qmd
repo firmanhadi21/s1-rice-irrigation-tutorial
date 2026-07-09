@@ -3,6 +3,10 @@ title: "Irrigation performance"
 subtitle: "SI, CU, RI per tertiary block for a Daerah Irigasi"
 ---
 
+::: {.text-end}
+🌐 **English** · [Bahasa Indonesia →](id/irrigation-performance.qmd)
+:::
+
 ## The idea
 
 The final step turns the satellite maps into **operational irrigation indicators** for a

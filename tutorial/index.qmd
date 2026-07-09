@@ -3,6 +3,10 @@ title: "Rice & Irrigation Monitoring with Sentinel-1"
 subtitle: "A hands-on, reproducible tutorial over Java, Indonesia"
 ---
 
+::: {.text-end}
+🌐 **English** · [Bahasa Indonesia →](id/index.qmd)
+:::
+
 This tutorial walks you, end to end, through a satellite workflow that turns **Sentinel-1 radar
 time series** into three operational products for water-resources management:
 

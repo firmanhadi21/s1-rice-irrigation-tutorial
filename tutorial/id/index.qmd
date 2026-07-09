@@ -1,0 +1,86 @@
+---
+title: "Pemantauan Sawah & Irigasi dengan Sentinel-1"
+subtitle: "Tutorial praktis dan dapat direproduksi untuk Pulau Jawa, Indonesia"
+---
+
+::: {.text-end}
+🌐 [English →](../index.qmd) · **Bahasa Indonesia**
+:::
+
+Tutorial ini memandu Anda dari awal sampai akhir melalui alur kerja satelit yang mengubah **deret
+waktu radar Sentinel-1** menjadi tiga produk operasional untuk pengelolaan sumber daya air:
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+### 🌾 Peta sawah
+Deteksi sawah dari fenologi hamburan-balik (*backscatter*) VH memakai jaringan saraf yang
+diseimbangkan dengan SMOTE, lalu bangun **konsensus sawah stabil** lintas tahun.
+
+[Buka bab →](paddy-map.qmd)
+:::
+
+::: {.g-col-12 .g-col-md-4}
+### 📅 Indeks pertanaman
+Hitung **siklus tanam** genangan→kanopi yang lengkap per tahun (1×/2×/3×) untuk memetakan
+intensitas tanam — luas musim tanam.
+
+[Buka bab →](planting-index.qmd)
+:::
+
+::: {.g-col-12 .g-col-md-4}
+### 💧 Kinerja irigasi
+Ubah peta menjadi **indeks per petak tersier** — Kepuasan (SI), Keseragaman (CU), dan
+Keandalan (RI) — untuk satu Daerah Irigasi.
+
+[Buka bab →](irrigation-performance.qmd)
+:::
+
+:::
+
+![Alur operasional: dari akuisisi Sentinel-1 hingga indikator irigasi.](../images/fig_pipeline_operasional.png)
+
+## Apa yang akan Anda bangun
+
+Di akhir tutorial, Anda telah mereproduksi seluruh rantai proses pada satu area sampel kecil:
+
+1. Sebuah **tumpukan (*stack*) deret waktu VH** untuk area minat (*area of interest*, AOI), diambil
+   dari awan (*cloud*).
+2. Sebuah **peta sawah biner** dan **konsensus lintas tahun** untuk sawah stabil.
+3. Sebuah peta **intensitas tanam (indeks pertanaman)**.
+4. Sebuah peta **koefisien tanaman (Kc)** yang menautkan fenologi ke kebutuhan air.
+5. **Indeks kinerja irigasi (SI/CU/RI)** per petak tersier untuk **DI Klambu**.
+
+## Area sampel yang digunakan
+
+Agar semuanya bisa dijalankan tanpa superkomputer, tutorial ini berpusat pada **DI Klambu**
+(Grobogan, Jawa Tengah) — daerah irigasi unggulan proyek ini (10.700 ha, 653 petak tersier). Batas
+petak tersier dan keluaran referensinya sudah disertakan dalam repositori, dan tumpukan Sentinel-1
+untuk AOI ini cukup kecil untuk diunduh di laptop.
+
+![Area studi DI Klambu, Jawa Tengah.](../images/fig_map_study_area.png){width=85%}
+
+## Bagaimana alur kerja disusun
+
+Metode ini bertumpu pada **tanda hamburan-balik VH yang khas dari padi**: sangat rendah saat
+penggenangan/tanam, naik tajam melewati fase vegetatif hingga puncak kanopi, lalu turun menjelang
+panen. Pola enam tahap itu — direkam setiap 12 hari oleh Sentinel-1 — adalah fondasi setiap produk
+di bawah ini.
+
+![Profil hamburan-balik VH yang khas sepanjang siklus tumbuh padi.](../images/fig_rice_vh_profile.png){width=85%}
+
+## Prasyarat
+
+- Terbiasa dengan **baris perintah Linux/macOS** dan **Python** dasar.
+- Akun **Google Earth Engine** gratis (untuk mengambil tumpukan Sentinel-1 sampel), *atau* tumpukan
+  VH terproses milik Anda sendiri.
+- RAM ~4 GB dan ruang disk beberapa GB. **Tanpa GPU** — model berjalan di CPU.
+
+Mulai dari bab [**Persiapan**](setup.qmd) untuk memasang lingkungan kerja dan mengunduh data sampel.
+
+::: {.callout-note}
+## Lingkup & kejujuran
+Ini adalah tutorial *metode*. Produk skala-Jawa penuh dalam laporan dihasilkan di HPC dari ~1.000
+citra Sentinel-1; di sini Anda mereproduksi **metode yang sama** pada AOI kecil. Angka akurasi yang
+dikutip berasal dari studi penuh, bukan dari sampel mainan ini.
+:::

@@ -3,6 +3,10 @@ title: "Planting index"
 subtitle: "Counting cropping cycles: 1×, 2×, 3× per year"
 ---
 
+::: {.text-end}
+🌐 **English** · [Bahasa Indonesia →](id/planting-index.qmd)
+:::
+
 ## The idea
 
 The **planting index** (cropping intensity, *indeks pertanaman*) answers *how many times* a field

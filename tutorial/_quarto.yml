@@ -13,24 +13,48 @@ website:
     background: primary
     search: true
     right:
+      - text: "🌐 Language / Bahasa"
+        menu:
+          - text: "English"
+            href: index.qmd
+          - text: "Bahasa Indonesia"
+            href: id/index.qmd
       - icon: github
         href: https://github.com/firmanhadi21/s1-rice-irrigation-tutorial
         aria-label: GitHub
   sidebar:
-    style: docked
-    search: true
-    contents:
-      - text: "Overview"
-        href: index.qmd
-      - setup.qmd
-      - section: "Core workflow"
-        contents:
-          - paddy-map.qmd
-          - planting-index.qmd
-          - irrigation-performance.qmd
-      - section: "Going further"
-        contents:
-          - growth-phase.qmd
+    - id: en
+      title: "English"
+      style: docked
+      search: true
+      contents:
+        - text: "Overview"
+          href: index.qmd
+        - setup.qmd
+        - section: "Core workflow"
+          contents:
+            - paddy-map.qmd
+            - planting-index.qmd
+            - irrigation-performance.qmd
+        - section: "Going further"
+          contents:
+            - growth-phase.qmd
+    - id: id
+      title: "Bahasa Indonesia"
+      style: docked
+      search: true
+      contents:
+        - text: "Ringkasan"
+          href: id/index.qmd
+        - id/setup.qmd
+        - section: "Alur inti"
+          contents:
+            - id/paddy-map.qmd
+            - id/planting-index.qmd
+            - id/irrigation-performance.qmd
+        - section: "Lanjutan"
+          contents:
+            - id/growth-phase.qmd
   page-footer:
     center: "Sentinel-1 Rice & Irrigation Monitoring — hands-on tutorial. Java Island, Indonesia."
 

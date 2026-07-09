@@ -1,0 +1,139 @@
+---
+title: "Kinerja irigasi"
+subtitle: "SI, CU, RI per petak tersier untuk satu Daerah Irigasi"
+---
+
+::: {.text-end}
+🌐 [English →](../irrigation-performance.qmd) · **Bahasa Indonesia**
+:::
+
+## Gagasannya
+
+Langkah terakhir mengubah peta satelit menjadi **indikator irigasi operasional** untuk sebuah *Daerah
+Irigasi* (DI), dihitung **per petak tersier**. Tiga indeks standar (FAO / Bos 1985) merangkum seberapa
+baik jaringan mengantarkan air:
+
+| Indeks | Makna | Pertanyaan yang dijawab |
+|---|---|---|
+| **SI** — Indeks Kepuasan | *kecukupan* | Apakah tiap petak memperoleh air yang cukup? |
+| **CU** — Keseragaman Christiansen | *keseragaman* | Apakah air tersebar merata di seluruh DI? |
+| **RI** — Indeks Keandalan | *ketergantungan* | Apakah tiap petak tetap cukup dari waktu ke waktu? |
+
+Kita mendemonstrasikannya pada **DI Klambu** (Grobogan, Jawa Tengah; 653 petak tersier), yang batas
+petak dan hasil referensinya disertakan dalam repositori.
+
+## Langkah 1 — Kebutuhan air tanaman: peta Kc
+
+Fase tumbuh → **koefisien tanaman (Kc)** menautkan apa yang dilihat satelit ke berapa banyak air yang
+dibutuhkan tanaman. `produce_kc_map.py` memperkirakan hari-setelah-tanam dari lembah genangan VH dan
+memetakannya ke kurva padi 110-hari FAO-56 (Kc 1,05 → 1,20 → 0,95 → 0).
+
+Berikan tumpukan VH dan mask sawah Anda dengan `--stack` / `--paddy-mask`. `--period-band` adalah
+**indeks pita** yang ditargetkan (memakai pita itu ditambah 9 pita sebelumnya, jadi butuh ≥10 pita
+riwayat — dengan sampel 18-pita, gunakan 10–18):
+
+```bash
+python produce_kc_map.py --period-band 14 --out kc_sample \
+    --stack data/sample/klambu_vh_2024.tif \
+    --paddy-mask consensus_sample/consensus_paddy_map.tif
+# → kc_sample/kc_band14.tif  (Kc per piksel sawah-aktif)
+```
+
+![Peta koefisien tanaman (Kc), MT 2024/25 — jembatan dari fenologi ke kebutuhan air.](../images/fig_kc_mt2024_25.png){width=90%}
+
+::: {.callout-note}
+## Harapkan hasil jarang pada AOI mainan
+Karena mask sawah sampel kecil (dan dibangun hanya dari beberapa periode), peta Kc — dan indeks di
+hilirnya — mungkin hanya mencakup sedikit piksel. Langkah-langkah di bawah mendemonstrasikan
+*mekanismenya*, bukan hasil representatif; gunakan tumpukan multi-tahun yang lebih lengkap dan lebih
+banyak periode untuk keluaran yang bermakna.
+:::
+
+## Langkah 2 — Neraca air (curah hujan vs kebutuhan)
+
+Indeks Kepuasan membandingkan **pasokan** (curah hujan — dan, bila tersedia, debit dari pintu/papan
+duga) terhadap **kebutuhan** (Kc × evapotranspirasi acuan). Proyek ini memakai curah hujan dan ET
+CHIRPS; deret harian bawaan untuk Klambu berada di `2026/irrigation_performance/` dan
+`2026/irrigation_performance_2024_s1kc/`.
+
+::: {.callout-note}
+## SI berbasis-satelit vs SI berbasis-air
+Tanpa data sensor pintu, SI dihitung dari **deteksi sawah-aktif** (proksi satelit untuk kecukupan).
+Mengacukan SI ke air *aktual* (bukaan pintu) adalah langkah validasi lapangan yang direncanakan untuk
+kampanye berikutnya — lihat laporan. Nyatakan dengan jelas versi mana yang Anda laporkan.
+:::
+
+## Langkah 3 — Hitung SI / CU / RI per petak
+
+`calculate_irrigation_indices.py` menyatukan semuanya — ia membaca prediksi sawah per-periode Anda dan
+batas petak tersier (`klambu.gpkg`, ruas id-petak `norec`), mengagregasi sinyal sawah-aktif secara
+zonal, dan menulis ketiga indeks per petak.
+
+```bash
+python calculate_irrigation_indices.py \
+    --predictions-dir predictions_sample/2024 \
+    --periods 13 15 17 19 21 23 \
+    --di-boundary 2026/irrigation_performance/klambu.gpkg \
+    --output-dir irrigation_results/klambu_2024 \
+    --confidence-threshold 0.7
+```
+
+Keluaran mencakup CSV indeks per-petak, ringkasan tingkat-DI, serta tampilan cepat deret-waktu/histogram
+di `irrigation_results/klambu_2024/`.
+
+Repositori sudah menyertakan hasil referensi yang bisa langsung Anda periksa:
+
+```bash
+head 2026/irrigation_performance/reliability_block_results.csv
+cat 2026/irrigation_performance/performance_summary.txt
+```
+
+## Langkah 4 — Petakan indeks per petak
+
+`make_irrigation_maps.py` merender tiga panel koroplet. Ia membaca CSV per-petak dari `./results_csv/`
+(lokasi tetap) dan menggabungkannya ke `klambu.gpkg`. Cara tercepat melihatnya adalah dengan **hasil
+referensi bawaan**:
+
+```bash
+mkdir -p results_csv
+cp 2026/irrigation_performance/uniformity_block_results.csv results_csv/
+cp 2026/irrigation_performance/reliability_block_results.csv results_csv/
+python make_irrigation_maps.py
+# → menulis 2026/figures/fig_irrigation_klambu_maps.png
+```
+
+(Untuk memetakan hasil *lari Anda sendiri*, salin CSV dari Langkah 3 ke `results_csv/` sebelum
+menjalankan.)
+
+![Indeks irigasi per petak tersier untuk DI Klambu (SI, CU, RI).](../images/fig_irrigation_klambu_maps.png){width=100%}
+
+## Membaca hasilnya
+
+Untuk DI Klambu, studi penuh menemukan:
+
+| Indeks | Nilai | Kategori (FAO/Bos 1985) |
+|---|---|---|
+| SI | 0,83 | Sangat baik |
+| CU | 0,93 | Sangat baik |
+| RI | 0,98 | Sangat baik |
+
+Namun keluaran yang berguna secara operasional adalah **diagnosis spasial**: sistem menandai **10 petak
+bermasalah** (RI < 0,75), **7 di antaranya berada di ujung-hilir** jaringan tersier — ketimpangan
+hulu–hilir yang klasik. Alih-alih memeriksa seluruh 653 petak, BBWS dapat menargetkan 10 petak itu —
+inti nilai tawar pendekatan satelit.
+
+::: {.callout-tip}
+## Saran ambang kinerja (kontrak P3A)
+Skema berjenjang memungkinkan adopsi dimulai konservatif lalu diperketat seiring waktu. Jenjang 1:
+**SI ≥ 0,75, CU ≥ 0,80, RI ≥ 0,70**, ditambah indeks tanam **≥ 1,5**.
+:::
+
+## Ke mana selanjutnya
+
+Anda telah mereproduksi seluruh rantai pada satu DI sampel. Untuk meningkatkan skala, Anda akan:
+memproses lebih banyak periode dan tahun Sentinel-1, memperluas ke lebih banyak DI, dan — peningkatan
+kunci — menambahkan **validasi lapangan** untuk mengacukan SI ke air aktual serta mengalibrasi algoritma
+fase.
+
+Untuk produk **fase tumbuh** yang lebih akurat yang mendasari Kc, lanjut ke
+[Lanjutan: fusi S1+S2](growth-phase.qmd).

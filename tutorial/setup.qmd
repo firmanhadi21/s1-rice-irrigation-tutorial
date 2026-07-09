@@ -3,6 +3,10 @@ title: "Setup"
 subtitle: "Environment, repository, and the sample data"
 ---
 
+::: {.text-end}
+🌐 **English** · [Bahasa Indonesia →](id/setup.qmd)
+:::
+
 ## 1. Clone the repository
 
 Everything in this tutorial lives in the project repository, including the **trained model**,

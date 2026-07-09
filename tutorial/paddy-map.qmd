@@ -3,6 +3,10 @@ title: "Paddy-field map"
 subtitle: "VH phenology features → SMOTE-balanced classifier → multi-year consensus"
 ---
 
+::: {.text-end}
+🌐 **English** · [Bahasa Indonesia →](id/paddy-map.qmd)
+:::
+
 ## The idea
 
 Rice paddies have a distinctive **VH backscatter trajectory** — a deep flooding trough followed by

@@ -1,0 +1,131 @@
+---
+title: "Peta sawah"
+subtitle: "Fitur fenologi VH → pengklasifikasi seimbang-SMOTE → konsensus lintas tahun"
+---
+
+::: {.text-end}
+🌐 [English →](../paddy-map.qmd) · **Bahasa Indonesia**
+:::
+
+## Gagasannya
+
+Sawah memiliki **lintasan hamburan-balik VH yang khas** — lembah dalam saat penggenangan diikuti
+kenaikan vegetatif yang curam hingga puncak kanopi. Kita mengubah jendela 7-periode nilai VH menjadi
+**29 fitur rekayasa** (nilai temporal, selisih, rasio, dan indikator fenologi) lalu mengklasifikasikan
+setiap piksel sebagai *sawah / bukan-sawah*.
+
+Karena sawah jauh lebih banyak daripada bukan-sawah pada titik latih (≈92% vs 8%), model naif menjadi
+terlalu konservatif. Kita memperbaikinya dengan **SMOTE** (*synthetic minority over-sampling*) menjadi
+himpunan seimbang 50/50 — langkah tunggal yang paling penting untuk deteksi yang realistis.
+
+## Langkah 1 — Latih model (berjalan dari data bawaan)
+
+Repositori menyertakan fitur yang sudah diekstraksi, jadi pelatihan **tidak butuh data satelit**:
+
+```bash
+export CUDA_VISIBLE_DEVICES=-1
+python train_paddy_vh_smote.py
+```
+
+Yang terjadi:
+
+- memuat `model_files_paddy_vh/training_data_*.csv` (29 fitur VH per titik),
+- menerapkan **SMOTE** untuk menyeimbangkan kelas,
+- melatih MLP dengan validasi silang berlapis (*stratified*) 5-lipatan,
+- menulis `model_files_paddy_vh/paddy_vh_model.keras` + `scaler.joblib`.
+
+Kinerja validasi silang yang diharapkan (studi penuh):
+
+| Metrik | Nilai |
+|---|---|
+| Akurasi | 95,4% ± 0,2% |
+| AUC-ROC | 98,3% ± 0,1% |
+
+::: {.callout-tip}
+Model terlatih sudah tersedia di `model_files_paddy_vh/` — Anda bisa **melewati pelatihan** dan
+langsung ke prediksi.
+:::
+
+## Langkah 2 — Prediksi pada tumpukan AOI
+
+Arahkan pemrediksi ke tumpukan Sentinel-1 yang Anda ambil di [Persiapan](setup.qmd). Karena tumpukan
+sampel adalah satu tahun yang dimulai pada pita 1, gunakan `--year-start-band 1` dan setel
+`--year-periods` ke jumlah pita yang Anda unduh (periode 7–24 → 18 pita).
+
+```bash
+python predict_paddy_vh_multiyear.py \
+    --period 15 --year 2024 \
+    --year-start-band 1 --year-periods 18 \
+    --vh-stack data/sample/klambu_vh_2024.tif \
+    --mask data/sample/klambu_mask.tif \
+    --skip-test \
+    --output-dir predictions_sample/2024/period_15
+```
+
+Keluaran (per periode):
+
+```
+predictions_sample/2024/period_15/
+├── paddy_predictions.tif   # 0 = bukan-sawah, 1 = sawah
+├── confidence.tif          # peluang 0–1
+├── paddy_map.png           # tampilan cepat
+└── statistics.txt          # ringkasan luas + kepercayaan
+```
+
+::: {.callout-important}
+## Jendela fitur butuh riwayat
+29 fitur menggunakan periode saat ini **ditambah 6 periode sebelumnya**. Prediksilah pada periode
+yang memiliki setidaknya 7 pita riwayat (mis. periode 13+ jika tumpukan Anda mulai pada periode 7).
+Untuk periode lebih awal, ambil tumpukan yang dimulai lebih awal.
+:::
+
+Jalankan beberapa periode sekaligus untuk melihat musim berkembang:
+
+```bash
+for p in 13 15 17 19 21 23; do
+  python predict_paddy_vh_multiyear.py --period $p --year 2024 \
+    --year-start-band 1 --year-periods 18 \
+    --vh-stack data/sample/klambu_vh_2024.tif --mask data/sample/klambu_mask.tif \
+    --skip-test --output-dir predictions_sample/2024/period_$p
+done
+```
+
+## Langkah 3 — Konsensus lintas tahun (sawah stabil)
+
+Satu periode tunggal mengandung positif-palsu sesaat. **Konsensus** hanya mempertahankan piksel yang
+terdeteksi sebagai sawah secara konsisten — idealnya lintas dua tahun penuh, dengan ambang kepercayaan
+dan jumlah deteksi. Dengan satu tahun sampel, Anda tetap dapat membangun konsensus dalam-tahun:
+
+```bash
+python create_multiyear_composite_paddy.py \
+    --years 2024 \
+    --periods 2024:"13 15 17 19 21 23" \
+    --predictions-dir predictions_sample \
+    --output consensus_sample \
+    --min-years 1 --min-detections 3 \
+    --min-confidence 0.7 --min-mean-confidence 0.6
+```
+
+Bendera `--periods` menerima satu argumen `TAHUN:"p1 p2 ..."` per tahun dan dapat diulang — mis. untuk
+konsensus dua tahun penuh: `--periods 2024:"7 9 11" --periods 2025:"7 9 11" --min-years 2`.
+
+Aturan konsensus yang penting:
+
+- `--min-confidence 0.7` — setiap deteksi harus meyakinkan,
+- `--min-detections 3` — harus berulang pada ≥3 periode,
+- `--min-years 2` (studi penuh) — harus muncul di **kedua** tahun → menyaring positif-palsu sesaat.
+
+Pada tumpukan Jawa penuh, ini menghasilkan **peta sawah stabil** utama:
+
+![Konsensus sawah stabil, Jawa 2024∩2025 (≈3,0 juta ha) — produk studi penuh.](../images/fig_consensus_2024_2025_stable.png){width=90%}
+
+## Dari "terdeteksi" ke "ditanami": peta berbasis siklus
+
+Konsensus menandai *kegigihan*; ia tidak memeriksa apakah sebuah piksel benar-benar menyelesaikan satu
+**siklus** padi. Produk-akhir yang disarankan mengiris konsensus dengan uji **≥1 siklus genangan→kanopi
+lengkap** (lihat bab [Indeks pertanaman](planting-index.qmd)) — ini menolak positif-palsu bukan-padi
+yang gigih (mis. perkebunan dataran tinggi) dan menghasilkan peta *sawah aktif*.
+
+![Peta sawah-aktif berbasis siklus yang disarankan, MT 2024/25 (≈2,3 juta ha).](../images/fig_peta_sawah_siklus_2024_2025.png){width=90%}
+
+Berikutnya: ubah sinyal temporal menjadi **indeks pertanaman** → [Indeks pertanaman](planting-index.qmd).

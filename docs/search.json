@@ -4,7 +4,7 @@
     "href": "setup.html",
     "title": "Setup",
     "section": "",
-    "text": "Everything in this tutorial lives in the project repository, including the trained model, DI Klambu tertiary-block boundaries, and the reference index outputs you will need.\ngit clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git\ncd s1-rice-irrigation-tutorial",
+    "text": "🌐 English · Bahasa Indonesia →",
     "crumbs": [
       "Setup"
     ]
@@ -13,8 +13,8 @@
     "objectID": "setup.html#clone-the-repository",
     "href": "setup.html#clone-the-repository",
     "title": "Setup",
-    "section": "",
-    "text": "Everything in this tutorial lives in the project repository, including the trained model, DI Klambu tertiary-block boundaries, and the reference index outputs you will need.\ngit clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git\ncd s1-rice-irrigation-tutorial",
+    "section": "1. Clone the repository",
+    "text": "1. Clone the repository\nEverything in this tutorial lives in the project repository, including the trained model, DI Klambu tertiary-block boundaries, and the reference index outputs you will need.\ngit clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git\ncd s1-rice-irrigation-tutorial",
     "crumbs": [
       "Setup"
     ]
@@ -64,7 +64,7 @@
     "href": "paddy-map.html",
     "title": "Paddy-field map",
     "section": "",
-    "text": "Rice paddies have a distinctive VH backscatter trajectory — a deep flooding trough followed by a steep vegetative rise to a canopy peak. We turn a 7-period window of VH values into 29 engineered features (temporal values, differences, ratios, and phenology indicators) and classify each pixel as paddy / non-paddy.\nBecause paddy hugely outnumbers non-paddy in the training points (≈92% vs 8%), a naive model becomes over-conservative. We fix this with SMOTE (synthetic minority over-sampling) to a balanced 50/50 set — the single most important step for realistic detection.",
+    "text": "🌐 English · Bahasa Indonesia →",
     "crumbs": [
       "Core workflow",
       "Paddy-field map"
@@ -74,8 +74,8 @@
     "objectID": "paddy-map.html#the-idea",
     "href": "paddy-map.html#the-idea",
     "title": "Paddy-field map",
-    "section": "",
-    "text": "Rice paddies have a distinctive VH backscatter trajectory — a deep flooding trough followed by a steep vegetative rise to a canopy peak. We turn a 7-period window of VH values into 29 engineered features (temporal values, differences, ratios, and phenology indicators) and classify each pixel as paddy / non-paddy.\nBecause paddy hugely outnumbers non-paddy in the training points (≈92% vs 8%), a naive model becomes over-conservative. We fix this with SMOTE (synthetic minority over-sampling) to a balanced 50/50 set — the single most important step for realistic detection.",
+    "section": "The idea",
+    "text": "The idea\nRice paddies have a distinctive VH backscatter trajectory — a deep flooding trough followed by a steep vegetative rise to a canopy peak. We turn a 7-period window of VH values into 29 engineered features (temporal values, differences, ratios, and phenology indicators) and classify each pixel as paddy / non-paddy.\nBecause paddy hugely outnumbers non-paddy in the training points (≈92% vs 8%), a naive model becomes over-conservative. We fix this with SMOTE (synthetic minority over-sampling) to a balanced 50/50 set — the single most important step for realistic detection.",
     "crumbs": [
       "Core workflow",
       "Paddy-field map"
@@ -130,7 +130,7 @@
     "href": "index.html",
     "title": "Rice & Irrigation Monitoring with Sentinel-1",
     "section": "",
-    "text": "This tutorial walks you, end to end, through a satellite workflow that turns Sentinel-1 radar time series into three operational products for water-resources management:",
+    "text": "🌐 English · Bahasa Indonesia →\nThis tutorial walks you, end to end, through a satellite workflow that turns Sentinel-1 radar time series into three operational products for water-resources management:",
     "crumbs": [
       "Overview"
     ]
@@ -176,11 +176,220 @@
     ]
   },
   {
+    "objectID": "id/planting-index.html",
+    "href": "id/planting-index.html",
+    "title": "Indeks pertanaman",
+    "section": "",
+    "text": "🌐 English → · Bahasa Indonesia",
+    "crumbs": [
+      "Alur inti",
+      "Indeks pertanaman"
+    ]
+  },
+  {
+    "objectID": "id/planting-index.html#gagasannya",
+    "href": "id/planting-index.html#gagasannya",
+    "title": "Indeks pertanaman",
+    "section": "Gagasannya",
+    "text": "Gagasannya\nIndeks pertanaman (intensitas tanam) menjawab berapa kali suatu lahan ditanami dalam satu tahun pertanian. Kita menurunkannya langsung dari deret waktu VH dengan penghitung siklus berbasis data: tanpa kalender tetap, tanpa ambang dB absolut.\nSetiap siklus padi adalah ayunan lembah genangan → puncak kanopi. Sebuah mesin-keadaan (state machine) per piksel menelusuri deret waktu dan menghitung satu siklus setiap kali VH naik minimal sebesar amplitudo minimum (≈4 dB) di atas nilai minimum berjalan, lalu menyiapkan diri lagi setelah turun kembali. Jumlah siklus lengkap itulah indeks pertanaman untuk piksel tersebut (dilaporkan 1 / 2 / 3+).\n\n\n\n\n\n\nNoteMengapa menghitung siklus, bukan menghitung periode\n\n\n\nMenghitung berapa periode sebuah piksel “tampak seperti sawah” cenderung melebih-hitung (kemiripan sesaat menggelembungkannya). Mensyaratkan ayunan amplitudo genangan→kanopi penuh berlandaskan fisika dan menolak artefak tersebut.",
+    "crumbs": [
+      "Alur inti",
+      "Indeks pertanaman"
+    ]
+  },
+  {
+    "objectID": "id/planting-index.html#langkah-1-validasi-penghitung-opsional",
+    "href": "id/planting-index.html#langkah-1-validasi-penghitung-opsional",
+    "title": "Indeks pertanaman",
+    "section": "Langkah 1 — Validasi penghitung (opsional)",
+    "text": "Langkah 1 — Validasi penghitung (opsional)\ncropping_intensity.py dapat memeriksa kewajaran penghitung tervektorisasinya terhadap peta padi independen (kelas tunggal/ganda/tiga) sebelum dijalankan pada tumpukan Anda:\npython cropping_intensity.py --mode validate \\\n    --stack data/sample/klambu_vh_2024.tif        # atau tumpukan multi-tahun Anda sendiri\nRata-rata siklus terdeteksi seharusnya meningkat secara monoton dari kelas referensi tanam-tunggal ke tanam-tiga — bukti bahwa penghitung mengikuti intensitas nyata. Keluaran terverifikasi pada tumpukan Jawa penuh:\nOpen-SEA CI=1: n=400 mean detected=1.77\nOpen-SEA CI=2: n=400 mean detected=2.06\nOpen-SEA CI=3: n=400 mean detected=2.31",
+    "crumbs": [
+      "Alur inti",
+      "Indeks pertanaman"
+    ]
+  },
+  {
+    "objectID": "id/planting-index.html#langkah-2-hitung-intensitas-tanam-pada-aoi",
+    "href": "id/planting-index.html#langkah-2-hitung-intensitas-tanam-pada-aoi",
+    "title": "Indeks pertanaman",
+    "section": "Langkah 2 — Hitung intensitas tanam pada AOI",
+    "text": "Langkah 2 — Hitung intensitas tanam pada AOI\nJalankan mode penuh pada tumpukan AOI Anda. Mask kandidat membuat hasilnya spesifik-padi — gunakan konsensus sawah Anda (disarankan) atau lapisan baku-sawah/kadaster; tanpa itu, gunakan --no-candidate (hanya siklus, kurang spesifik).\npython cropping_intensity.py --mode full \\\n    --stack &lt;tumpukan-vh-multi-tahun-anda.tif&gt; \\\n    --candidate-mask consensus_sample/consensus_paddy_map.tif \\\n    --output cropping_intensity_sample\n\n\n\n\n\n\nImportantMode penuh butuh tumpukan multi-tahun\n\n\n\n--mode full menghitung siklus pada jendela tahun-pertanian MT 2024/25, yang dibaca skrip dari pita 25–56 tumpukan gabungan 2024–2026. AOI sampel satu-tahun yang kecil (18 pita) tidak mencakup jendela itu — arahkan --stack ke tumpukan multi-tahun penuh Anda, atau ubah MT_BANDS di dalam skrip untuk rentang pita lain. Langkah --mode validate di atas memang berjalan pada sampel.\n\n\n\n\n\n\n\n\nNoteHarapkan hasil jarang pada AOI mainan\n\n\n\nPada sampel satu-tahun yang kecil, mask konsensus dalam-tahun (sedikit periode, ambang ketat) bisa hampir kosong, sehingga peta intensitas tanam di sini jarang dan hanya ilustratif — ia menunjukkan mekanismenya, bukan produk representatif. Untuk peta bermakna, gunakan lebih banyak periode dan tumpukan multi-tahun penuh.\n\n\nKeluaran:\ncropping_intensity_sample/\n├── cropping_intensity.tif   # uint8: 0 bukan-sawah, 1 / 2 / 3(=3+) tanam\n├── paddy_mask.tif           # 1 bila ≥1 siklus\n└── statistics.txt           # luas per kelas + indeks agregat\nstatistics.txt melaporkan indeks tanam agregat (rata-rata siklus pada sawah) dan luas ha di tiap kelas.\n\n\n\n\n\n\nWarningDua hal yang ditangani skrip untuk Anda\n\n\n\n\nPita anomali ~0 dB (celah akuisisi/pemrosesan) terdeteksi dan diinterpolasi otomatis — dua pita semacam itu jika dibiarkan akan memalsukan ayunan kanopi tambahan dan menggelembungkan indeks.\nLuas piksel pada 50 m ≈ 0,25 ha; skrip memakai nilai ini, jadi luasnya benar.",
+    "crumbs": [
+      "Alur inti",
+      "Indeks pertanaman"
+    ]
+  },
+  {
+    "objectID": "id/planting-index.html#apa-yang-ditunjukkan-studi-penuh",
+    "href": "id/planting-index.html#apa-yang-ditunjukkan-studi-penuh",
+    "title": "Indeks pertanaman",
+    "section": "Apa yang ditunjukkan studi penuh",
+    "text": "Apa yang ditunjukkan studi penuh\nUntuk Jawa pada MT 2024/25, indeks agregat adalah ≈1,62 pada tapak konsensus-stabil, dengan pola spasial yang jelas — tanam-tiga terkonsentrasi di sepanjang koridor aman-air (Pantura, Bengawan Solo).\n\n\n\nPeta intensitas tanam, MT 2024/25 (tanam 1× / 2× / 3×).\n\n\nPerbandingan antar-tahun pada piksel yang sama naik dari IP 1,45 (MT 2023/24) → 1,63 (MT 2024/25) — luas tanam nyaris tak berubah, tetapi intensitas meningkat (lebih banyak tanam-ganda dan tanam-tiga), konsisten dengan pemulihan air pasca-El-Niño. Sinyal itu — variabilitas iklim mendorong intensitas tanam — adalah bagian yang menarik secara ilmiah dari rekaman multi-tahun.",
+    "crumbs": [
+      "Alur inti",
+      "Indeks pertanaman"
+    ]
+  },
+  {
+    "objectID": "id/planting-index.html#memilih-tapak-footprint",
+    "href": "id/planting-index.html#memilih-tapak-footprint",
+    "title": "Indeks pertanaman",
+    "section": "Memilih tapak (footprint)",
+    "text": "Memilih tapak (footprint)\nCakupan intensitas tanam bergantung pada mask kandidat yang Anda berikan:\n\nmask konsensus Anda → peta bersarang di dalam peta sawah Anda (disarankan, koheren);\nmask kadaster/baku-sawah → peta dipangkas ke tapak resmi;\n--no-candidate → siklus atas seluruh daratan (tidak menolak apa pun bukan-padi — gunakan dengan hati-hati).\n\nJaga agar tapak konsisten dengan peta sawah supaya kedua produk menceritakan satu kisah yang sama.\nBerikutnya: ubah fenologi menjadi kebutuhan air dan hitung kinerja irigasi → Kinerja irigasi.",
+    "crumbs": [
+      "Alur inti",
+      "Indeks pertanaman"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html",
+    "href": "id/irrigation-performance.html",
+    "title": "Kinerja irigasi",
+    "section": "",
+    "text": "🌐 English → · Bahasa Indonesia",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html#gagasannya",
+    "href": "id/irrigation-performance.html#gagasannya",
+    "title": "Kinerja irigasi",
+    "section": "Gagasannya",
+    "text": "Gagasannya\nLangkah terakhir mengubah peta satelit menjadi indikator irigasi operasional untuk sebuah Daerah Irigasi (DI), dihitung per petak tersier. Tiga indeks standar (FAO / Bos 1985) merangkum seberapa baik jaringan mengantarkan air:\n\n\n\n\n\n\n\n\nIndeks\nMakna\nPertanyaan yang dijawab\n\n\n\n\nSI — Indeks Kepuasan\nkecukupan\nApakah tiap petak memperoleh air yang cukup?\n\n\nCU — Keseragaman Christiansen\nkeseragaman\nApakah air tersebar merata di seluruh DI?\n\n\nRI — Indeks Keandalan\nketergantungan\nApakah tiap petak tetap cukup dari waktu ke waktu?\n\n\n\nKita mendemonstrasikannya pada DI Klambu (Grobogan, Jawa Tengah; 653 petak tersier), yang batas petak dan hasil referensinya disertakan dalam repositori.",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html#langkah-1-kebutuhan-air-tanaman-peta-kc",
+    "href": "id/irrigation-performance.html#langkah-1-kebutuhan-air-tanaman-peta-kc",
+    "title": "Kinerja irigasi",
+    "section": "Langkah 1 — Kebutuhan air tanaman: peta Kc",
+    "text": "Langkah 1 — Kebutuhan air tanaman: peta Kc\nFase tumbuh → koefisien tanaman (Kc) menautkan apa yang dilihat satelit ke berapa banyak air yang dibutuhkan tanaman. produce_kc_map.py memperkirakan hari-setelah-tanam dari lembah genangan VH dan memetakannya ke kurva padi 110-hari FAO-56 (Kc 1,05 → 1,20 → 0,95 → 0).\nBerikan tumpukan VH dan mask sawah Anda dengan --stack / --paddy-mask. --period-band adalah indeks pita yang ditargetkan (memakai pita itu ditambah 9 pita sebelumnya, jadi butuh ≥10 pita riwayat — dengan sampel 18-pita, gunakan 10–18):\npython produce_kc_map.py --period-band 14 --out kc_sample \\\n    --stack data/sample/klambu_vh_2024.tif \\\n    --paddy-mask consensus_sample/consensus_paddy_map.tif\n# → kc_sample/kc_band14.tif  (Kc per piksel sawah-aktif)\n\n\n\nPeta koefisien tanaman (Kc), MT 2024/25 — jembatan dari fenologi ke kebutuhan air.\n\n\n\n\n\n\n\n\nNoteHarapkan hasil jarang pada AOI mainan\n\n\n\nKarena mask sawah sampel kecil (dan dibangun hanya dari beberapa periode), peta Kc — dan indeks di hilirnya — mungkin hanya mencakup sedikit piksel. Langkah-langkah di bawah mendemonstrasikan mekanismenya, bukan hasil representatif; gunakan tumpukan multi-tahun yang lebih lengkap dan lebih banyak periode untuk keluaran yang bermakna.",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html#langkah-2-neraca-air-curah-hujan-vs-kebutuhan",
+    "href": "id/irrigation-performance.html#langkah-2-neraca-air-curah-hujan-vs-kebutuhan",
+    "title": "Kinerja irigasi",
+    "section": "Langkah 2 — Neraca air (curah hujan vs kebutuhan)",
+    "text": "Langkah 2 — Neraca air (curah hujan vs kebutuhan)\nIndeks Kepuasan membandingkan pasokan (curah hujan — dan, bila tersedia, debit dari pintu/papan duga) terhadap kebutuhan (Kc × evapotranspirasi acuan). Proyek ini memakai curah hujan dan ET CHIRPS; deret harian bawaan untuk Klambu berada di 2026/irrigation_performance/ dan 2026/irrigation_performance_2024_s1kc/.\n\n\n\n\n\n\nNoteSI berbasis-satelit vs SI berbasis-air\n\n\n\nTanpa data sensor pintu, SI dihitung dari deteksi sawah-aktif (proksi satelit untuk kecukupan). Mengacukan SI ke air aktual (bukaan pintu) adalah langkah validasi lapangan yang direncanakan untuk kampanye berikutnya — lihat laporan. Nyatakan dengan jelas versi mana yang Anda laporkan.",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html#langkah-3-hitung-si-cu-ri-per-petak",
+    "href": "id/irrigation-performance.html#langkah-3-hitung-si-cu-ri-per-petak",
+    "title": "Kinerja irigasi",
+    "section": "Langkah 3 — Hitung SI / CU / RI per petak",
+    "text": "Langkah 3 — Hitung SI / CU / RI per petak\ncalculate_irrigation_indices.py menyatukan semuanya — ia membaca prediksi sawah per-periode Anda dan batas petak tersier (klambu.gpkg, ruas id-petak norec), mengagregasi sinyal sawah-aktif secara zonal, dan menulis ketiga indeks per petak.\npython calculate_irrigation_indices.py \\\n    --predictions-dir predictions_sample/2024 \\\n    --periods 13 15 17 19 21 23 \\\n    --di-boundary 2026/irrigation_performance/klambu.gpkg \\\n    --output-dir irrigation_results/klambu_2024 \\\n    --confidence-threshold 0.7\nKeluaran mencakup CSV indeks per-petak, ringkasan tingkat-DI, serta tampilan cepat deret-waktu/histogram di irrigation_results/klambu_2024/.\nRepositori sudah menyertakan hasil referensi yang bisa langsung Anda periksa:\nhead 2026/irrigation_performance/reliability_block_results.csv\ncat 2026/irrigation_performance/performance_summary.txt",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html#langkah-4-petakan-indeks-per-petak",
+    "href": "id/irrigation-performance.html#langkah-4-petakan-indeks-per-petak",
+    "title": "Kinerja irigasi",
+    "section": "Langkah 4 — Petakan indeks per petak",
+    "text": "Langkah 4 — Petakan indeks per petak\nmake_irrigation_maps.py merender tiga panel koroplet. Ia membaca CSV per-petak dari ./results_csv/ (lokasi tetap) dan menggabungkannya ke klambu.gpkg. Cara tercepat melihatnya adalah dengan hasil referensi bawaan:\nmkdir -p results_csv\ncp 2026/irrigation_performance/uniformity_block_results.csv results_csv/\ncp 2026/irrigation_performance/reliability_block_results.csv results_csv/\npython make_irrigation_maps.py\n# → menulis 2026/figures/fig_irrigation_klambu_maps.png\n(Untuk memetakan hasil lari Anda sendiri, salin CSV dari Langkah 3 ke results_csv/ sebelum menjalankan.)\n\n\n\nIndeks irigasi per petak tersier untuk DI Klambu (SI, CU, RI).",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html#membaca-hasilnya",
+    "href": "id/irrigation-performance.html#membaca-hasilnya",
+    "title": "Kinerja irigasi",
+    "section": "Membaca hasilnya",
+    "text": "Membaca hasilnya\nUntuk DI Klambu, studi penuh menemukan:\n\n\n\nIndeks\nNilai\nKategori (FAO/Bos 1985)\n\n\n\n\nSI\n0,83\nSangat baik\n\n\nCU\n0,93\nSangat baik\n\n\nRI\n0,98\nSangat baik\n\n\n\nNamun keluaran yang berguna secara operasional adalah diagnosis spasial: sistem menandai 10 petak bermasalah (RI &lt; 0,75), 7 di antaranya berada di ujung-hilir jaringan tersier — ketimpangan hulu–hilir yang klasik. Alih-alih memeriksa seluruh 653 petak, BBWS dapat menargetkan 10 petak itu — inti nilai tawar pendekatan satelit.\n\n\n\n\n\n\nTipSaran ambang kinerja (kontrak P3A)\n\n\n\nSkema berjenjang memungkinkan adopsi dimulai konservatif lalu diperketat seiring waktu. Jenjang 1: SI ≥ 0,75, CU ≥ 0,80, RI ≥ 0,70, ditambah indeks tanam ≥ 1,5.",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/irrigation-performance.html#ke-mana-selanjutnya",
+    "href": "id/irrigation-performance.html#ke-mana-selanjutnya",
+    "title": "Kinerja irigasi",
+    "section": "Ke mana selanjutnya",
+    "text": "Ke mana selanjutnya\nAnda telah mereproduksi seluruh rantai pada satu DI sampel. Untuk meningkatkan skala, Anda akan: memproses lebih banyak periode dan tahun Sentinel-1, memperluas ke lebih banyak DI, dan — peningkatan kunci — menambahkan validasi lapangan untuk mengacukan SI ke air aktual serta mengalibrasi algoritma fase.\nUntuk produk fase tumbuh yang lebih akurat yang mendasari Kc, lanjut ke Lanjutan: fusi S1+S2.",
+    "crumbs": [
+      "Alur inti",
+      "Kinerja irigasi"
+    ]
+  },
+  {
+    "objectID": "id/growth-phase.html",
+    "href": "id/growth-phase.html",
+    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "section": "",
+    "text": "🌐 English → · Bahasa Indonesia",
+    "crumbs": [
+      "Lanjutan",
+      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+    ]
+  },
+  {
+    "objectID": "id/growth-phase.html#keterbatasan-fase-hanya-vh",
+    "href": "id/growth-phase.html#keterbatasan-fase-hanya-vh",
+    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "section": "Keterbatasan fase hanya-VH",
+    "text": "Keterbatasan fase hanya-VH\nPenghitung siklus pada bab indeks pertanaman memberi tahu Anda berapa banyak siklus terjadi, tetapi mengklasifikasikan tahap tumbuh yang tepat (genangan → vegetatif → reproduktif → pemasakan) dari VH saja itu sulit: tahap reproduktif tumpang-tindih dalam hamburan-balik, dan lahan tadah-hujan tanpa lembah genangan yang jelas kehilangan jangkar fenologisnya. Pada data lapangan, model fase berambang hanya-VH hanya mencapai kesepakatan ~32%.\n\n\n\nPeta fase tumbuh per piksel, MT 2024/25 (perkiraan berbasis VH).",
+    "crumbs": [
+      "Lanjutan",
+      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+    ]
+  },
+  {
+    "objectID": "id/growth-phase.html#menambah-optik-fusi-sentinel-1-sentinel-2-mogpr",
+    "href": "id/growth-phase.html#menambah-optik-fusi-sentinel-1-sentinel-2-mogpr",
+    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "section": "Menambah optik: fusi Sentinel-1 + Sentinel-2 (MOGPR)",
+    "text": "Menambah optik: fusi Sentinel-1 + Sentinel-2 (MOGPR)\nNDVI Sentinel-2 membawa informasi fenologi yang kuat tetapi terputus oleh awan di daerah tropis lembap. MOGPR (Multi-Output Gaussian Process Regression, dari perangkat sumber-terbuka FuseTS) memfusikan keduanya: ia memakai korelasi-silang antara VH dan NDVI untuk mengisi celah dan menghasilkan satu kurva terfusi bebas-celah per piksel, yang lalu dilabeli menurut fase oleh pengklasifikasi deret-waktu (MiniROCKET + LightGBM).\nDalam evaluasi proyek (leave-one-region-out, titik berlabel drone), menambahkan optik lewat MOGPR menaikkan F1 fase generatif dari 0,52 (hanya-VH) → ~0,67 (terfusi) — sekitar +15 poin. Ternyata, optiklah penentu tahap fenologis; radar menyediakan tulang punggung segala-cuaca.\n\n\n\n\n\n\nNoteSumber-terbuka, bukan berpemilik\n\n\n\nFuseTS/MOGPR adalah alternatif gratis dan dapat direproduksi terhadap layanan fusi berpemilik (mis. CropSAR) — penting bagi lembaga nasional dengan anggaran publik.",
+    "crumbs": [
+      "Lanjutan",
+      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+    ]
+  },
+  {
+    "objectID": "id/growth-phase.html#di-mana-kode-fusi-berada",
+    "href": "id/growth-phase.html#di-mana-kode-fusi-berada",
+    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "section": "Di mana kode fusi berada",
+    "text": "Di mana kode fusi berada\nAlur fusi (kubus data, MOGPR, pengklasifikasi fase, peta fase/IP/produksi multi-tahun) berada di repositori terpisah:\n\ngithub.com/firmanhadi21/FuseTS — lihat scripts/extract_point_series.py, scripts/train_v3_mogpr_ensemble.py, dan scripts/ABLATION_HPC_RUNBOOK.md.\n\nIa memerlukan akses Sentinel-2 (Microsoft Planetary Computer) dan komputasi lebih besar daripada tutorial laptop ini, itulah sebabnya disajikan di sini sebagai perluasan alih-alih langkah yang bisa dijalankan.",
+    "crumbs": [
+      "Lanjutan",
+      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+    ]
+  },
+  {
+    "objectID": "id/growth-phase.html#rangkuman",
+    "href": "id/growth-phase.html#rangkuman",
+    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "section": "Rangkuman",
+    "text": "Rangkuman\nKini Anda telah melihat keseluruhan sistem:\n\nPeta sawah — fenologi VH + pengklasifikasi SMOTE + konsensus lintas tahun.\nIndeks pertanaman — penghitungan siklus berbasis data (1×/2×/3×).\nKinerja irigasi — Kc + neraca air → SI/CU/RI per petak tersier.\nFase tumbuh — fusi MOGPR S1+S2 untuk pemetaan tahap yang akurat (perluasan).\n\nBersama-sama, semua itu mengubah citra radar gratis menjadi informasi siap-keputusan untuk pengelolaan irigasi. Terima kasih telah mengikuti — isu dan kontribusi dipersilakan di GitHub.",
+    "crumbs": [
+      "Lanjutan",
+      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+    ]
+  },
+  {
     "objectID": "growth-phase.html",
     "href": "growth-phase.html",
     "title": "Going further: growth-phase mapping with S1+S2 fusion",
     "section": "",
-    "text": "The cycle counter in the planting index chapter tells you how many cycles occur, but classifying the exact growth stage (flooding → vegetative → reproductive → maturity) from VH alone is hard: reproductive stages overlap in backscatter, and rainfed fields without a clear flooding trough lose the phenological anchor. On field data, a VH-only threshold phase model reached only ~32% agreement.\n\n\n\nPer-pixel growth-phase map, MT 2024/25 (VH-based estimate).",
+    "text": "🌐 English · Bahasa Indonesia →",
     "crumbs": [
       "Going further",
       "Going further: growth-phase mapping with S1+S2 fusion"
@@ -190,8 +399,8 @@
     "objectID": "growth-phase.html#the-limitation-of-vh-only-phase",
     "href": "growth-phase.html#the-limitation-of-vh-only-phase",
     "title": "Going further: growth-phase mapping with S1+S2 fusion",
-    "section": "",
-    "text": "The cycle counter in the planting index chapter tells you how many cycles occur, but classifying the exact growth stage (flooding → vegetative → reproductive → maturity) from VH alone is hard: reproductive stages overlap in backscatter, and rainfed fields without a clear flooding trough lose the phenological anchor. On field data, a VH-only threshold phase model reached only ~32% agreement.\n\n\n\nPer-pixel growth-phase map, MT 2024/25 (VH-based estimate).",
+    "section": "The limitation of VH-only phase",
+    "text": "The limitation of VH-only phase\nThe cycle counter in the planting index chapter tells you how many cycles occur, but classifying the exact growth stage (flooding → vegetative → reproductive → maturity) from VH alone is hard: reproductive stages overlap in backscatter, and rainfed fields without a clear flooding trough lose the phenological anchor. On field data, a VH-only threshold phase model reached only ~32% agreement.\n\n\n\nPer-pixel growth-phase map, MT 2024/25 (VH-based estimate).",
     "crumbs": [
       "Going further",
       "Going further: growth-phase mapping with S1+S2 fusion"
@@ -231,11 +440,187 @@
     ]
   },
   {
+    "objectID": "id/index.html",
+    "href": "id/index.html",
+    "title": "Pemantauan Sawah & Irigasi dengan Sentinel-1",
+    "section": "",
+    "text": "🌐 English → · Bahasa Indonesia\nTutorial ini memandu Anda dari awal sampai akhir melalui alur kerja satelit yang mengubah deret waktu radar Sentinel-1 menjadi tiga produk operasional untuk pengelolaan sumber daya air:",
+    "crumbs": [
+      "Ringkasan"
+    ]
+  },
+  {
+    "objectID": "id/index.html#apa-yang-akan-anda-bangun",
+    "href": "id/index.html#apa-yang-akan-anda-bangun",
+    "title": "Pemantauan Sawah & Irigasi dengan Sentinel-1",
+    "section": "Apa yang akan Anda bangun",
+    "text": "Apa yang akan Anda bangun\nDi akhir tutorial, Anda telah mereproduksi seluruh rantai proses pada satu area sampel kecil:\n\nSebuah tumpukan (stack) deret waktu VH untuk area minat (area of interest, AOI), diambil dari awan (cloud).\nSebuah peta sawah biner dan konsensus lintas tahun untuk sawah stabil.\nSebuah peta intensitas tanam (indeks pertanaman).\nSebuah peta koefisien tanaman (Kc) yang menautkan fenologi ke kebutuhan air.\nIndeks kinerja irigasi (SI/CU/RI) per petak tersier untuk DI Klambu.",
+    "crumbs": [
+      "Ringkasan"
+    ]
+  },
+  {
+    "objectID": "id/index.html#area-sampel-yang-digunakan",
+    "href": "id/index.html#area-sampel-yang-digunakan",
+    "title": "Pemantauan Sawah & Irigasi dengan Sentinel-1",
+    "section": "Area sampel yang digunakan",
+    "text": "Area sampel yang digunakan\nAgar semuanya bisa dijalankan tanpa superkomputer, tutorial ini berpusat pada DI Klambu (Grobogan, Jawa Tengah) — daerah irigasi unggulan proyek ini (10.700 ha, 653 petak tersier). Batas petak tersier dan keluaran referensinya sudah disertakan dalam repositori, dan tumpukan Sentinel-1 untuk AOI ini cukup kecil untuk diunduh di laptop.\n\n\n\nArea studi DI Klambu, Jawa Tengah.",
+    "crumbs": [
+      "Ringkasan"
+    ]
+  },
+  {
+    "objectID": "id/index.html#bagaimana-alur-kerja-disusun",
+    "href": "id/index.html#bagaimana-alur-kerja-disusun",
+    "title": "Pemantauan Sawah & Irigasi dengan Sentinel-1",
+    "section": "Bagaimana alur kerja disusun",
+    "text": "Bagaimana alur kerja disusun\nMetode ini bertumpu pada tanda hamburan-balik VH yang khas dari padi: sangat rendah saat penggenangan/tanam, naik tajam melewati fase vegetatif hingga puncak kanopi, lalu turun menjelang panen. Pola enam tahap itu — direkam setiap 12 hari oleh Sentinel-1 — adalah fondasi setiap produk di bawah ini.\n\n\n\nProfil hamburan-balik VH yang khas sepanjang siklus tumbuh padi.",
+    "crumbs": [
+      "Ringkasan"
+    ]
+  },
+  {
+    "objectID": "id/index.html#prasyarat",
+    "href": "id/index.html#prasyarat",
+    "title": "Pemantauan Sawah & Irigasi dengan Sentinel-1",
+    "section": "Prasyarat",
+    "text": "Prasyarat\n\nTerbiasa dengan baris perintah Linux/macOS dan Python dasar.\nAkun Google Earth Engine gratis (untuk mengambil tumpukan Sentinel-1 sampel), atau tumpukan VH terproses milik Anda sendiri.\nRAM ~4 GB dan ruang disk beberapa GB. Tanpa GPU — model berjalan di CPU.\n\nMulai dari bab Persiapan untuk memasang lingkungan kerja dan mengunduh data sampel.\n\n\n\n\n\n\nNoteLingkup & kejujuran\n\n\n\nIni adalah tutorial metode. Produk skala-Jawa penuh dalam laporan dihasilkan di HPC dari ~1.000 citra Sentinel-1; di sini Anda mereproduksi metode yang sama pada AOI kecil. Angka akurasi yang dikutip berasal dari studi penuh, bukan dari sampel mainan ini.",
+    "crumbs": [
+      "Ringkasan"
+    ]
+  },
+  {
+    "objectID": "id/paddy-map.html",
+    "href": "id/paddy-map.html",
+    "title": "Peta sawah",
+    "section": "",
+    "text": "🌐 English → · Bahasa Indonesia",
+    "crumbs": [
+      "Alur inti",
+      "Peta sawah"
+    ]
+  },
+  {
+    "objectID": "id/paddy-map.html#gagasannya",
+    "href": "id/paddy-map.html#gagasannya",
+    "title": "Peta sawah",
+    "section": "Gagasannya",
+    "text": "Gagasannya\nSawah memiliki lintasan hamburan-balik VH yang khas — lembah dalam saat penggenangan diikuti kenaikan vegetatif yang curam hingga puncak kanopi. Kita mengubah jendela 7-periode nilai VH menjadi 29 fitur rekayasa (nilai temporal, selisih, rasio, dan indikator fenologi) lalu mengklasifikasikan setiap piksel sebagai sawah / bukan-sawah.\nKarena sawah jauh lebih banyak daripada bukan-sawah pada titik latih (≈92% vs 8%), model naif menjadi terlalu konservatif. Kita memperbaikinya dengan SMOTE (synthetic minority over-sampling) menjadi himpunan seimbang 50/50 — langkah tunggal yang paling penting untuk deteksi yang realistis.",
+    "crumbs": [
+      "Alur inti",
+      "Peta sawah"
+    ]
+  },
+  {
+    "objectID": "id/paddy-map.html#langkah-1-latih-model-berjalan-dari-data-bawaan",
+    "href": "id/paddy-map.html#langkah-1-latih-model-berjalan-dari-data-bawaan",
+    "title": "Peta sawah",
+    "section": "Langkah 1 — Latih model (berjalan dari data bawaan)",
+    "text": "Langkah 1 — Latih model (berjalan dari data bawaan)\nRepositori menyertakan fitur yang sudah diekstraksi, jadi pelatihan tidak butuh data satelit:\nexport CUDA_VISIBLE_DEVICES=-1\npython train_paddy_vh_smote.py\nYang terjadi:\n\nmemuat model_files_paddy_vh/training_data_*.csv (29 fitur VH per titik),\nmenerapkan SMOTE untuk menyeimbangkan kelas,\nmelatih MLP dengan validasi silang berlapis (stratified) 5-lipatan,\nmenulis model_files_paddy_vh/paddy_vh_model.keras + scaler.joblib.\n\nKinerja validasi silang yang diharapkan (studi penuh):\n\n\n\nMetrik\nNilai\n\n\n\n\nAkurasi\n95,4% ± 0,2%\n\n\nAUC-ROC\n98,3% ± 0,1%\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nModel terlatih sudah tersedia di model_files_paddy_vh/ — Anda bisa melewati pelatihan dan langsung ke prediksi.",
+    "crumbs": [
+      "Alur inti",
+      "Peta sawah"
+    ]
+  },
+  {
+    "objectID": "id/paddy-map.html#langkah-2-prediksi-pada-tumpukan-aoi",
+    "href": "id/paddy-map.html#langkah-2-prediksi-pada-tumpukan-aoi",
+    "title": "Peta sawah",
+    "section": "Langkah 2 — Prediksi pada tumpukan AOI",
+    "text": "Langkah 2 — Prediksi pada tumpukan AOI\nArahkan pemrediksi ke tumpukan Sentinel-1 yang Anda ambil di Persiapan. Karena tumpukan sampel adalah satu tahun yang dimulai pada pita 1, gunakan --year-start-band 1 dan setel --year-periods ke jumlah pita yang Anda unduh (periode 7–24 → 18 pita).\npython predict_paddy_vh_multiyear.py \\\n    --period 15 --year 2024 \\\n    --year-start-band 1 --year-periods 18 \\\n    --vh-stack data/sample/klambu_vh_2024.tif \\\n    --mask data/sample/klambu_mask.tif \\\n    --skip-test \\\n    --output-dir predictions_sample/2024/period_15\nKeluaran (per periode):\npredictions_sample/2024/period_15/\n├── paddy_predictions.tif   # 0 = bukan-sawah, 1 = sawah\n├── confidence.tif          # peluang 0–1\n├── paddy_map.png           # tampilan cepat\n└── statistics.txt          # ringkasan luas + kepercayaan\n\n\n\n\n\n\nImportantJendela fitur butuh riwayat\n\n\n\n29 fitur menggunakan periode saat ini ditambah 6 periode sebelumnya. Prediksilah pada periode yang memiliki setidaknya 7 pita riwayat (mis. periode 13+ jika tumpukan Anda mulai pada periode 7). Untuk periode lebih awal, ambil tumpukan yang dimulai lebih awal.\n\n\nJalankan beberapa periode sekaligus untuk melihat musim berkembang:\nfor p in 13 15 17 19 21 23; do\n  python predict_paddy_vh_multiyear.py --period $p --year 2024 \\\n    --year-start-band 1 --year-periods 18 \\\n    --vh-stack data/sample/klambu_vh_2024.tif --mask data/sample/klambu_mask.tif \\\n    --skip-test --output-dir predictions_sample/2024/period_$p\ndone",
+    "crumbs": [
+      "Alur inti",
+      "Peta sawah"
+    ]
+  },
+  {
+    "objectID": "id/paddy-map.html#langkah-3-konsensus-lintas-tahun-sawah-stabil",
+    "href": "id/paddy-map.html#langkah-3-konsensus-lintas-tahun-sawah-stabil",
+    "title": "Peta sawah",
+    "section": "Langkah 3 — Konsensus lintas tahun (sawah stabil)",
+    "text": "Langkah 3 — Konsensus lintas tahun (sawah stabil)\nSatu periode tunggal mengandung positif-palsu sesaat. Konsensus hanya mempertahankan piksel yang terdeteksi sebagai sawah secara konsisten — idealnya lintas dua tahun penuh, dengan ambang kepercayaan dan jumlah deteksi. Dengan satu tahun sampel, Anda tetap dapat membangun konsensus dalam-tahun:\npython create_multiyear_composite_paddy.py \\\n    --years 2024 \\\n    --periods 2024:\"13 15 17 19 21 23\" \\\n    --predictions-dir predictions_sample \\\n    --output consensus_sample \\\n    --min-years 1 --min-detections 3 \\\n    --min-confidence 0.7 --min-mean-confidence 0.6\nBendera --periods menerima satu argumen TAHUN:\"p1 p2 ...\" per tahun dan dapat diulang — mis. untuk konsensus dua tahun penuh: --periods 2024:\"7 9 11\" --periods 2025:\"7 9 11\" --min-years 2.\nAturan konsensus yang penting:\n\n--min-confidence 0.7 — setiap deteksi harus meyakinkan,\n--min-detections 3 — harus berulang pada ≥3 periode,\n--min-years 2 (studi penuh) — harus muncul di kedua tahun → menyaring positif-palsu sesaat.\n\nPada tumpukan Jawa penuh, ini menghasilkan peta sawah stabil utama:\n\n\n\nKonsensus sawah stabil, Jawa 2024∩2025 (≈3,0 juta ha) — produk studi penuh.",
+    "crumbs": [
+      "Alur inti",
+      "Peta sawah"
+    ]
+  },
+  {
+    "objectID": "id/paddy-map.html#dari-terdeteksi-ke-ditanami-peta-berbasis-siklus",
+    "href": "id/paddy-map.html#dari-terdeteksi-ke-ditanami-peta-berbasis-siklus",
+    "title": "Peta sawah",
+    "section": "Dari “terdeteksi” ke “ditanami”: peta berbasis siklus",
+    "text": "Dari “terdeteksi” ke “ditanami”: peta berbasis siklus\nKonsensus menandai kegigihan; ia tidak memeriksa apakah sebuah piksel benar-benar menyelesaikan satu siklus padi. Produk-akhir yang disarankan mengiris konsensus dengan uji ≥1 siklus genangan→kanopi lengkap (lihat bab Indeks pertanaman) — ini menolak positif-palsu bukan-padi yang gigih (mis. perkebunan dataran tinggi) dan menghasilkan peta sawah aktif.\n\n\n\nPeta sawah-aktif berbasis siklus yang disarankan, MT 2024/25 (≈2,3 juta ha).\n\n\nBerikutnya: ubah sinyal temporal menjadi indeks pertanaman → Indeks pertanaman.",
+    "crumbs": [
+      "Alur inti",
+      "Peta sawah"
+    ]
+  },
+  {
+    "objectID": "id/setup.html",
+    "href": "id/setup.html",
+    "title": "Persiapan",
+    "section": "",
+    "text": "🌐 English → · Bahasa Indonesia",
+    "crumbs": [
+      "Persiapan"
+    ]
+  },
+  {
+    "objectID": "id/setup.html#klon-repositori",
+    "href": "id/setup.html#klon-repositori",
+    "title": "Persiapan",
+    "section": "1. Klon repositori",
+    "text": "1. Klon repositori\nSegala isi tutorial ini berada di repositori proyek, termasuk model terlatih, batas petak tersier DI Klambu, dan keluaran indeks referensi yang Anda perlukan.\ngit clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git\ncd s1-rice-irrigation-tutorial",
+    "crumbs": [
+      "Persiapan"
+    ]
+  },
+  {
+    "objectID": "id/setup.html#buat-lingkungan-kerja",
+    "href": "id/setup.html#buat-lingkungan-kerja",
+    "title": "Persiapan",
+    "section": "2. Buat lingkungan kerja",
+    "text": "2. Buat lingkungan kerja\nModel berjalan di CPU — tanpa GPU. Gunakan conda (disarankan) atau virtualenv biasa.\nconda create -n s1rice python=3.10 -y\nconda activate s1rice\n\npip install tensorflow rasterio geopandas rioxarray scikit-learn \\\n            imbalanced-learn numpy pandas matplotlib scipy joblib \\\n            earthengine-api requests\n\n\n\n\n\n\nTip\n\n\n\nrasterio dan geopandas menarik GDAL sebagai dependensi. Jika pip kesulitan, pasang dari conda-forge saja: conda install -c conda-forge rasterio geopandas rioxarray -y.\n\n\nPaksa eksekusi hanya-CPU (menghindari masalah GPU/XLA) — skrip pelatihan/prediksi sudah menyetel ini, tetapi untuk penggunaan interaktif:\nexport CUDA_VISIBLE_DEVICES=-1",
+    "crumbs": [
+      "Persiapan"
+    ]
+  },
+  {
+    "objectID": "id/setup.html#apa-yang-disertakan-repositori-data-sampel-anda",
+    "href": "id/setup.html#apa-yang-disertakan-repositori-data-sampel-anda",
+    "title": "Persiapan",
+    "section": "3. Apa yang disertakan repositori (data sampel Anda)",
+    "text": "3. Apa yang disertakan repositori (data sampel Anda)\nSetelah mengklon, Anda sudah memiliki berkas-berkas ini — semuanya membuat alur kerja langsung bisa dijalankan:\n\n\n\n\n\n\n\nBerkas\nDigunakan pada\n\n\n\n\nmodel_files_paddy_vh/paddy_vh_model.keras (+ scaler.joblib)\nPrediksi sawah\n\n\nmodel_files_paddy_vh/training_data_*.csv\nPelatihan sawah (29 fitur VH + label)\n\n\ndata/training_points_paddy_binary.csv\nReferensi titik latih\n\n\n2026/irrigation_performance/klambu.gpkg\nPetak tersier DI Klambu\n\n\n2026/irrigation_performance/*_block_results.csv\nReferensi SI/CU/RI per petak\n\n\n\nSatu-satunya yang belum ada adalah tumpukan VH Sentinel-1 untuk AOI (terlalu besar untuk disertakan) — ambil pada langkah berikut.",
+    "crumbs": [
+      "Persiapan"
+    ]
+  },
+  {
+    "objectID": "id/setup.html#ambil-tumpukan-sentinel-1-sampel",
+    "href": "id/setup.html#ambil-tumpukan-sentinel-1-sampel",
+    "title": "Persiapan",
+    "section": "4. Ambil tumpukan Sentinel-1 sampel",
+    "text": "4. Ambil tumpukan Sentinel-1 sampel\nSentinel-1 GRD bersifat gratis dan terbuka. Kita mengambil tumpukan komposit VH 12-harian kecil untuk DI Klambu langsung dari Google Earth Engine.\nOtentikasi sekali saja (akun gratis):\nearthengine authenticate\n\n\n\n\n\n\nTipDi HPC / server tanpa layar (headless)\n\n\n\nLewati login interaktif: letakkan kunci akun layanan (service-account key) bernama ee-geodetic.json di akar repositori (skrip mendeteksinya otomatis), atau berikan --service-account-key /path/to/key.json. Tanpa peramban.\n\n\nLalu jalankan skrip pengambilan (tersedia di tutorial/scripts/):\ncd tutorial/scripts\npython fetch_sample_aoi.py --year 2024 --start-period 7 --end-period 24 \\\n    --out ../../data/sample/klambu_vh_2024.tif\nSkrip ini menulis data/sample/klambu_vh_2024.tif — sebuah GeoTIFF multi-pita dengan satu pita per periode 12-harian, bernama 2024_Period_7 … 2024_Period_24, pada resolusi 50 m. Verifikasi:\ncd ../..\ngdalinfo data/sample/klambu_vh_2024.tif | head -20\n\n\n\n\n\n\nNoteTidak punya akun Earth Engine?\n\n\n\nSeluruh alur kerja menerima sembarang GeoTIFF VH dengan pita periode 12-harian. Jika Anda memproses Sentinel-1 sendiri (mis. dengan ESA SNAP), cukup arahkan skrip ke tumpukan Anda sendiri. Konvensi penamaan pita adalah &lt;tahun&gt;_Period_&lt;n&gt;.",
+    "crumbs": [
+      "Persiapan"
+    ]
+  },
+  {
+    "objectID": "id/setup.html#buat-mask-aoi-opsional-tetapi-disarankan",
+    "href": "id/setup.html#buat-mask-aoi-opsional-tetapi-disarankan",
+    "title": "Persiapan",
+    "section": "5. Buat mask AOI (opsional tetapi disarankan)",
+    "text": "5. Buat mask AOI (opsional tetapi disarankan)\nSebagian besar skrip menerima --mask sehingga pemrosesan dibatasi pada daratan/AOI. Untuk sampel, Anda dapat menurunkannya dari batas DI Klambu:\n# rasterisasi batas DI ke grid VH sebagai mask 0/1\ngdal_rasterize -burn 1 -tr 0.000449 0.000449 -a_nodata 0 \\\n    -te 110.72 -7.10 110.94 -6.94 -ot Byte \\\n    2026/irrigation_performance/klambu.gpkg data/sample/klambu_mask.tif\nAnda sudah siap. Lanjut ke Peta sawah.",
+    "crumbs": [
+      "Persiapan"
+    ]
+  },
+  {
     "objectID": "irrigation-performance.html",
     "href": "irrigation-performance.html",
     "title": "Irrigation performance",
     "section": "",
-    "text": "The final step turns the satellite maps into operational irrigation indicators for a Daerah Irigasi (DI), computed per tertiary block (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:\n\n\n\n\n\n\n\n\nIndex\nMeaning\nQuestion it answers\n\n\n\n\nSI — Satisfaction Index\nadequacy\nIs each block getting enough water?\n\n\nCU — Christiansen Uniformity\nuniformity\nIs water spread evenly across the DI?\n\n\nRI — Reliability Index\ndependability\nDoes each block stay adequate over time?\n\n\n\nWe demonstrate on DI Klambu (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.",
+    "text": "🌐 English · Bahasa Indonesia →",
     "crumbs": [
       "Core workflow",
       "Irrigation performance"
@@ -245,8 +630,8 @@
     "objectID": "irrigation-performance.html#the-idea",
     "href": "irrigation-performance.html#the-idea",
     "title": "Irrigation performance",
-    "section": "",
-    "text": "The final step turns the satellite maps into operational irrigation indicators for a Daerah Irigasi (DI), computed per tertiary block (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:\n\n\n\n\n\n\n\n\nIndex\nMeaning\nQuestion it answers\n\n\n\n\nSI — Satisfaction Index\nadequacy\nIs each block getting enough water?\n\n\nCU — Christiansen Uniformity\nuniformity\nIs water spread evenly across the DI?\n\n\nRI — Reliability Index\ndependability\nDoes each block stay adequate over time?\n\n\n\nWe demonstrate on DI Klambu (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.",
+    "section": "The idea",
+    "text": "The idea\nThe final step turns the satellite maps into operational irrigation indicators for a Daerah Irigasi (DI), computed per tertiary block (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:\n\n\n\n\n\n\n\n\nIndex\nMeaning\nQuestion it answers\n\n\n\n\nSI — Satisfaction Index\nadequacy\nIs each block getting enough water?\n\n\nCU — Christiansen Uniformity\nuniformity\nIs water spread evenly across the DI?\n\n\nRI — Reliability Index\ndependability\nDoes each block stay adequate over time?\n\n\n\nWe demonstrate on DI Klambu (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.",
     "crumbs": [
       "Core workflow",
       "Irrigation performance"
@@ -323,7 +708,7 @@
     "href": "planting-index.html",
     "title": "Planting index",
     "section": "",
-    "text": "The planting index (cropping intensity, indeks pertanaman) answers how many times a field is planted in one agricultural year. We derive it directly from the VH time series with a data-driven cycle counter: no fixed calendar, no absolute-dB threshold.\nEach rice cycle is a flood trough → canopy peak swing. A per-pixel state machine walks the time series and counts a cycle whenever VH rises by at least a minimum amplitude (≈4 dB) above a running minimum, then re-arms after it falls back down. The number of complete cycles is the planting index for that pixel (reported 1 / 2 / 3+).\n\n\n\n\n\n\nNoteWhy cycle-counting, not period-counting\n\n\n\nCounting periods a pixel “looks like paddy” over-counts (transient look-alikes inflate it). Requiring a full flood→canopy amplitude swing is physically grounded and rejects those artefacts.",
+    "text": "🌐 English · Bahasa Indonesia →",
     "crumbs": [
       "Core workflow",
       "Planting index"
@@ -333,8 +718,8 @@
     "objectID": "planting-index.html#the-idea",
     "href": "planting-index.html#the-idea",
     "title": "Planting index",
-    "section": "",
-    "text": "The planting index (cropping intensity, indeks pertanaman) answers how many times a field is planted in one agricultural year. We derive it directly from the VH time series with a data-driven cycle counter: no fixed calendar, no absolute-dB threshold.\nEach rice cycle is a flood trough → canopy peak swing. A per-pixel state machine walks the time series and counts a cycle whenever VH rises by at least a minimum amplitude (≈4 dB) above a running minimum, then re-arms after it falls back down. The number of complete cycles is the planting index for that pixel (reported 1 / 2 / 3+).\n\n\n\n\n\n\nNoteWhy cycle-counting, not period-counting\n\n\n\nCounting periods a pixel “looks like paddy” over-counts (transient look-alikes inflate it). Requiring a full flood→canopy amplitude swing is physically grounded and rejects those artefacts.",
+    "section": "The idea",
+    "text": "The idea\nThe planting index (cropping intensity, indeks pertanaman) answers how many times a field is planted in one agricultural year. We derive it directly from the VH time series with a data-driven cycle counter: no fixed calendar, no absolute-dB threshold.\nEach rice cycle is a flood trough → canopy peak swing. A per-pixel state machine walks the time series and counts a cycle whenever VH rises by at least a minimum amplitude (≈4 dB) above a running minimum, then re-arms after it falls back down. The number of complete cycles is the planting index for that pixel (reported 1 / 2 / 3+).\n\n\n\n\n\n\nNoteWhy cycle-counting, not period-counting\n\n\n\nCounting periods a pixel “looks like paddy” over-counts (transient look-alikes inflate it). Requiring a full flood→canopy amplitude swing is physically grounded and rejects those artefacts.",
     "crumbs": [
       "Core workflow",
       "Planting index"

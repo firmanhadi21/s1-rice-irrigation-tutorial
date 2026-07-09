@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Irrigation performance – Sentinel-1 Rice &amp; Irrigation Monitoring</title>
+<title>Pemantauan Sawah &amp; Irigasi dengan Sentinel-1 – Sentinel-1 Rice &amp; Irrigation Monitoring</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,63 +23,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./growth-phase.html" rel="next">
-<link href="./planting-index.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a62e4a8c4ed1f37879b9d6c8c541ae5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../id/setup.html" rel="next">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a62e4a8c4ed1f37879b9d6c8c541ae5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -119,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sentinel-1 Rice &amp; Irrigation Monitoring</span>
     </a>
   </div>
@@ -135,11 +99,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-language--bahasa">    
         <li>
-    <a class="dropdown-item" href="./index.html">
+    <a class="dropdown-item" href="../index.html">
  <span class="dropdown-text">English</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./id/index.html">
+    <a class="dropdown-item" href="../id/index.html">
  <span class="dropdown-text">Bahasa Indonesia</span></a>
   </li>  
     </ul>
@@ -165,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./paddy-map.html">Core workflow</a></li><li class="breadcrumb-item"><a href="./irrigation-performance.html">Irrigation performance</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../id/index.html">Ringkasan</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -187,20 +151,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
+  <a href="../id/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Ringkasan</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./setup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Setup</span></a>
+  <a href="../id/setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persiapan</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Core workflow</span></a>
+ <span class="menu-text">Alur inti</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -208,20 +172,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./paddy-map.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Paddy-field map</span></a>
+  <a href="../id/paddy-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Peta sawah</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./planting-index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Planting index</span></a>
+  <a href="../id/planting-index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Indeks pertanaman</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./irrigation-performance.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Irrigation performance</span></a>
+  <a href="../id/irrigation-performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Kinerja irigasi</span></a>
   </div>
 </li>
       </ul>
@@ -229,7 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Going further</span></a>
+ <span class="menu-text">Lanjutan</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -237,8 +201,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./growth-phase.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Going further: growth-phase mapping with S1+S2 fusion</span></a>
+  <a href="../id/growth-phase.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2</span></a>
   </div>
 </li>
       </ul>
@@ -253,23 +217,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-idea" id="toc-the-idea" class="nav-link active" data-scroll-target="#the-idea">The idea</a></li>
-  <li><a href="#step-1-crop-water-demand-the-kc-map" id="toc-step-1-crop-water-demand-the-kc-map" class="nav-link" data-scroll-target="#step-1-crop-water-demand-the-kc-map">Step 1 — Crop water demand: the Kc map</a></li>
-  <li><a href="#step-2-water-balance-rainfall-vs-demand" id="toc-step-2-water-balance-rainfall-vs-demand" class="nav-link" data-scroll-target="#step-2-water-balance-rainfall-vs-demand">Step 2 — Water balance (rainfall vs demand)</a></li>
-  <li><a href="#step-3-compute-si-cu-ri-per-block" id="toc-step-3-compute-si-cu-ri-per-block" class="nav-link" data-scroll-target="#step-3-compute-si-cu-ri-per-block">Step 3 — Compute SI / CU / RI per block</a></li>
-  <li><a href="#step-4-map-the-indices-per-block" id="toc-step-4-map-the-indices-per-block" class="nav-link" data-scroll-target="#step-4-map-the-indices-per-block">Step 4 — Map the indices per block</a></li>
-  <li><a href="#reading-the-result" id="toc-reading-the-result" class="nav-link" data-scroll-target="#reading-the-result">Reading the result</a></li>
-  <li><a href="#where-to-go-next" id="toc-where-to-go-next" class="nav-link" data-scroll-target="#where-to-go-next">Where to go next</a></li>
+  <li><a href="#apa-yang-akan-anda-bangun" id="toc-apa-yang-akan-anda-bangun" class="nav-link active" data-scroll-target="#apa-yang-akan-anda-bangun">Apa yang akan Anda bangun</a></li>
+  <li><a href="#area-sampel-yang-digunakan" id="toc-area-sampel-yang-digunakan" class="nav-link" data-scroll-target="#area-sampel-yang-digunakan">Area sampel yang digunakan</a></li>
+  <li><a href="#bagaimana-alur-kerja-disusun" id="toc-bagaimana-alur-kerja-disusun" class="nav-link" data-scroll-target="#bagaimana-alur-kerja-disusun">Bagaimana alur kerja disusun</a></li>
+  <li><a href="#prasyarat" id="toc-prasyarat" class="nav-link" data-scroll-target="#prasyarat">Prasyarat</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./paddy-map.html">Core workflow</a></li><li class="breadcrumb-item"><a href="./irrigation-performance.html">Irrigation performance</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Irrigation performance</h1>
-<p class="subtitle lead">SI, CU, RI per tertiary block for a Daerah Irigasi</p>
+<h1 class="title">Pemantauan Sawah &amp; Irigasi dengan Sentinel-1</h1>
+<p class="subtitle lead">Tutorial praktis dan dapat direproduksi untuk Pulau Jawa, Indonesia</p>
 </div>
 
 
@@ -287,167 +248,84 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="text-end">
-<p>🌐 <strong>English</strong> · <a href="./id/irrigation-performance.html">Bahasa Indonesia →</a></p>
+<p>🌐 <a href="../index.html">English →</a> · <strong>Bahasa Indonesia</strong></p>
 </div>
-<section id="the-idea" class="level2">
-<h2 class="anchored" data-anchor-id="the-idea">The idea</h2>
-<p>The final step turns the satellite maps into <strong>operational irrigation indicators</strong> for a <em>Daerah Irigasi</em> (DI), computed <strong>per tertiary block</strong> (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Index</th>
-<th>Meaning</th>
-<th>Question it answers</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>SI</strong> — Satisfaction Index</td>
-<td><em>adequacy</em></td>
-<td>Is each block getting enough water?</td>
-</tr>
-<tr class="even">
-<td><strong>CU</strong> — Christiansen Uniformity</td>
-<td><em>uniformity</em></td>
-<td>Is water spread evenly across the DI?</td>
-</tr>
-<tr class="odd">
-<td><strong>RI</strong> — Reliability Index</td>
-<td><em>dependability</em></td>
-<td>Does each block stay adequate over time?</td>
-</tr>
-</tbody>
-</table>
-<p>We demonstrate on <strong>DI Klambu</strong> (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.</p>
+<p>Tutorial ini memandu Anda dari awal sampai akhir melalui alur kerja satelit yang mengubah <strong>deret waktu radar Sentinel-1</strong> menjadi tiga produk operasional untuk pengelolaan sumber daya air:</p>
+<div class="grid">
+<section id="peta-sawah" class="level3 g-col-12 g-col-md-4">
+<h3 class="anchored" data-anchor-id="peta-sawah">🌾 Peta sawah</h3>
+<p>Deteksi sawah dari fenologi hamburan-balik (<em>backscatter</em>) VH memakai jaringan saraf yang diseimbangkan dengan SMOTE, lalu bangun <strong>konsensus sawah stabil</strong> lintas tahun.</p>
+<p><a href="../id/paddy-map.html">Buka bab →</a></p>
 </section>
-<section id="step-1-crop-water-demand-the-kc-map" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-crop-water-demand-the-kc-map">Step 1 — Crop water demand: the Kc map</h2>
-<p>Growth phase → <strong>crop coefficient (Kc)</strong> links what the satellite sees to how much water the crop needs. <code>produce_kc_map.py</code> estimates days-after-transplant from the VH flooding trough and maps it onto the FAO-56 rice 110-day curve (Kc 1.05 → 1.20 → 0.95 → 0).</p>
-<p>Pass your VH stack and paddy mask with <code>--stack</code> / <code>--paddy-mask</code>. <code>--period-band</code> is the <strong>band index</strong> to target (it uses that band plus the 9 before it, so it needs ≥10 bands of history — with the 18-band sample, use 10–18):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> produce_kc_map.py <span class="at">--period-band</span> 14 <span class="at">--out</span> kc_sample <span class="dt">\</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--stack</span> data/sample/klambu_vh_2024.tif <span class="dt">\</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--paddy-mask</span> consensus_sample/consensus_paddy_map.tif</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># → kc_sample/kc_band14.tif  (Kc per active-paddy pixel)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="indeks-pertanaman" class="level3 g-col-12 g-col-md-4">
+<h3 class="anchored" data-anchor-id="indeks-pertanaman">📅 Indeks pertanaman</h3>
+<p>Hitung <strong>siklus tanam</strong> genangan→kanopi yang lengkap per tahun (1×/2×/3×) untuk memetakan intensitas tanam — luas musim tanam.</p>
+<p><a href="../id/planting-index.html">Buka bab →</a></p>
+</section>
+<section id="kinerja-irigasi" class="level3 g-col-12 g-col-md-4">
+<h3 class="anchored" data-anchor-id="kinerja-irigasi">💧 Kinerja irigasi</h3>
+<p>Ubah peta menjadi <strong>indeks per petak tersier</strong> — Kepuasan (SI), Keseragaman (CU), dan Keandalan (RI) — untuk satu Daerah Irigasi.</p>
+<p><a href="../id/irrigation-performance.html">Buka bab →</a></p>
+</section>
+</div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/fig_kc_mt2024_25.png" class="img-fluid figure-img" style="width:90.0%"></p>
-<figcaption>Crop-coefficient (Kc) map, MT 2024/25 — the bridge from phenology to water demand.</figcaption>
+<p><img src="../images/fig_pipeline_operasional.png" class="img-fluid figure-img"></p>
+<figcaption>Alur operasional: dari akuisisi Sentinel-1 hingga indikator irigasi.</figcaption>
 </figure>
 </div>
+<section id="apa-yang-akan-anda-bangun" class="level2">
+<h2 class="anchored" data-anchor-id="apa-yang-akan-anda-bangun">Apa yang akan Anda bangun</h2>
+<p>Di akhir tutorial, Anda telah mereproduksi seluruh rantai proses pada satu area sampel kecil:</p>
+<ol type="1">
+<li>Sebuah <strong>tumpukan (<em>stack</em>) deret waktu VH</strong> untuk area minat (<em>area of interest</em>, AOI), diambil dari awan (<em>cloud</em>).</li>
+<li>Sebuah <strong>peta sawah biner</strong> dan <strong>konsensus lintas tahun</strong> untuk sawah stabil.</li>
+<li>Sebuah peta <strong>intensitas tanam (indeks pertanaman)</strong>.</li>
+<li>Sebuah peta <strong>koefisien tanaman (Kc)</strong> yang menautkan fenologi ke kebutuhan air.</li>
+<li><strong>Indeks kinerja irigasi (SI/CU/RI)</strong> per petak tersier untuk <strong>DI Klambu</strong>.</li>
+</ol>
+</section>
+<section id="area-sampel-yang-digunakan" class="level2">
+<h2 class="anchored" data-anchor-id="area-sampel-yang-digunakan">Area sampel yang digunakan</h2>
+<p>Agar semuanya bisa dijalankan tanpa superkomputer, tutorial ini berpusat pada <strong>DI Klambu</strong> (Grobogan, Jawa Tengah) — daerah irigasi unggulan proyek ini (10.700 ha, 653 petak tersier). Batas petak tersier dan keluaran referensinya sudah disertakan dalam repositori, dan tumpukan Sentinel-1 untuk AOI ini cukup kecil untuk diunduh di laptop.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/fig_map_study_area.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Area studi DI Klambu, Jawa Tengah.</figcaption>
+</figure>
+</div>
+</section>
+<section id="bagaimana-alur-kerja-disusun" class="level2">
+<h2 class="anchored" data-anchor-id="bagaimana-alur-kerja-disusun">Bagaimana alur kerja disusun</h2>
+<p>Metode ini bertumpu pada <strong>tanda hamburan-balik VH yang khas dari padi</strong>: sangat rendah saat penggenangan/tanam, naik tajam melewati fase vegetatif hingga puncak kanopi, lalu turun menjelang panen. Pola enam tahap itu — direkam setiap 12 hari oleh Sentinel-1 — adalah fondasi setiap produk di bawah ini.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../images/fig_rice_vh_profile.png" class="img-fluid figure-img" style="width:85.0%"></p>
+<figcaption>Profil hamburan-balik VH yang khas sepanjang siklus tumbuh padi.</figcaption>
+</figure>
+</div>
+</section>
+<section id="prasyarat" class="level2">
+<h2 class="anchored" data-anchor-id="prasyarat">Prasyarat</h2>
+<ul>
+<li>Terbiasa dengan <strong>baris perintah Linux/macOS</strong> dan <strong>Python</strong> dasar.</li>
+<li>Akun <strong>Google Earth Engine</strong> gratis (untuk mengambil tumpukan Sentinel-1 sampel), <em>atau</em> tumpukan VH terproses milik Anda sendiri.</li>
+<li>RAM ~4 GB dan ruang disk beberapa GB. <strong>Tanpa GPU</strong> — model berjalan di CPU.</li>
+</ul>
+<p>Mulai dari bab <a href="../id/setup.html"><strong>Persiapan</strong></a> untuk memasang lingkungan kerja dan mengunduh data sampel.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Expect a sparse result on the toy AOI
+<span class="screen-reader-only">Note</span>Lingkup &amp; kejujuran
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Because the sample paddy mask is small (and built from just a few periods), the Kc map — and the indices downstream — may cover very few pixels. The steps below demonstrate the <em>mechanics</em>, not a representative result; use a fuller multi-year stack and more periods for meaningful output.</p>
+<p>Ini adalah tutorial <em>metode</em>. Produk skala-Jawa penuh dalam laporan dihasilkan di HPC dari ~1.000 citra Sentinel-1; di sini Anda mereproduksi <strong>metode yang sama</strong> pada AOI kecil. Angka akurasi yang dikutip berasal dari studi penuh, bukan dari sampel mainan ini.</p>
 </div>
 </div>
-</section>
-<section id="step-2-water-balance-rainfall-vs-demand" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-water-balance-rainfall-vs-demand">Step 2 — Water balance (rainfall vs demand)</h2>
-<p>The Satisfaction Index compares <strong>supply</strong> (rainfall — and, where available, gate/staff-gauge flows) against <strong>demand</strong> (Kc × reference evapotranspiration). The project uses CHIRPS rainfall and ET; the shipped daily series for Klambu live in <code>2026/irrigation_performance/</code> and <code>2026/irrigation_performance_2024_s1kc/</code>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Satellite-only vs water-referenced SI
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Without gate-sensor data, SI is computed from <strong>active-paddy detection</strong> (a satellite proxy for adequacy). Referencing SI to <em>actual</em> water (gate openings) is the field-validation step planned for a later campaign — see the reports. Be explicit about which you report.</p>
-</div>
-</div>
-</section>
-<section id="step-3-compute-si-cu-ri-per-block" class="level2">
-<h2 class="anchored" data-anchor-id="step-3-compute-si-cu-ri-per-block">Step 3 — Compute SI / CU / RI per block</h2>
-<p><code>calculate_irrigation_indices.py</code> ties it together — it reads your per-period paddy predictions and the tertiary-block boundaries (<code>klambu.gpkg</code>, block-id field <code>norec</code>), zonally aggregates the active- paddy signal, and writes the three indices per block.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> calculate_irrigation_indices.py <span class="dt">\</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--predictions-dir</span> predictions_sample/2024 <span class="dt">\</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">--periods</span> 13 15 17 19 21 23 <span class="dt">\</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--di-boundary</span> 2026/irrigation_performance/klambu.gpkg <span class="dt">\</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--output-dir</span> irrigation_results/klambu_2024 <span class="dt">\</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--confidence-threshold</span> 0.7</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Outputs include per-block index CSVs, a DI-level summary, and time-series/histogram quick-looks in <code>irrigation_results/klambu_2024/</code>.</p>
-<p>The repository already ships reference results you can inspect immediately:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> 2026/irrigation_performance/reliability_block_results.csv</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> 2026/irrigation_performance/performance_summary.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="step-4-map-the-indices-per-block" class="level2">
-<h2 class="anchored" data-anchor-id="step-4-map-the-indices-per-block">Step 4 — Map the indices per block</h2>
-<p><code>make_irrigation_maps.py</code> renders the three choropleth panels. It reads the per-block CSVs from <code>./results_csv/</code> (a fixed location) and joins them to <code>klambu.gpkg</code>. The quickest way to see it is with the <strong>shipped reference results</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results_csv</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> 2026/irrigation_performance/uniformity_block_results.csv results_csv/</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> 2026/irrigation_performance/reliability_block_results.csv results_csv/</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> make_irrigation_maps.py</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># → writes 2026/figures/fig_irrigation_klambu_maps.png</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>(To map <em>your</em> run instead, copy the CSVs produced in Step 3 into <code>results_csv/</code> before running.)</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/fig_irrigation_klambu_maps.png" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption>Per-tertiary-block irrigation indices for DI Klambu (SI, CU, RI).</figcaption>
-</figure>
-</div>
-</section>
-<section id="reading-the-result" class="level2">
-<h2 class="anchored" data-anchor-id="reading-the-result">Reading the result</h2>
-<p>For DI Klambu the full study finds:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Index</th>
-<th>Value</th>
-<th>Category (FAO/Bos 1985)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>SI</td>
-<td>0.83</td>
-<td>Very good</td>
-</tr>
-<tr class="even">
-<td>CU</td>
-<td>0.93</td>
-<td>Very good</td>
-</tr>
-<tr class="odd">
-<td>RI</td>
-<td>0.98</td>
-<td>Very good</td>
-</tr>
-</tbody>
-</table>
-<p>But the operationally useful output is the <strong>spatial diagnostic</strong>: the system flags <strong>10 problematic blocks</strong> (RI &lt; 0.75), <strong>7 of them at the tail-end</strong> of the tertiary network — the classic head–tail inequity. Instead of inspecting all 653 blocks, the BBWS can target those 10 — the core value proposition of a satellite approach.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Suggested performance thresholds (P3A contracts)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A tiered scheme lets adoption start conservative and tighten over time. Tier 1: <strong>SI ≥ 0.75, CU ≥ 0.80, RI ≥ 0.70</strong>, plus cropping index <strong>≥ 1.5</strong>.</p>
-</div>
-</div>
-</section>
-<section id="where-to-go-next" class="level2">
-<h2 class="anchored" data-anchor-id="where-to-go-next">Where to go next</h2>
-<p>You have reproduced the full chain on a sample DI. To scale up you would: process more Sentinel-1 periods and years, extend to more DIs, and — the key upgrade — add <strong>field validation</strong> to water-reference SI and calibrate the phase algorithm.</p>
-<p>For the more accurate <strong>growth-phase</strong> product that underpins Kc, continue to <a href="./growth-phase.html">Going further: S1+S2 fusion</a>.</p>
 
 
 </section>
@@ -860,13 +738,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./planting-index.html" class="pagination-link" aria-label="Planting index">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Planting index</span>
-      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./growth-phase.html" class="pagination-link" aria-label="Going further: growth-phase mapping with S1+S2 fusion">
-        <span class="nav-page-text">Going further: growth-phase mapping with S1+S2 fusion</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../id/setup.html" class="pagination-link" aria-label="Persiapan">
+        <span class="nav-page-text">Persiapan</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -888,5 +763,5 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
