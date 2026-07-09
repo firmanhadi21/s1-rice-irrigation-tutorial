@@ -1,0 +1,50 @@
+project:
+  type: website
+  output-dir: ../docs
+  render:
+    - "*.qmd"
+
+website:
+  title: "Sentinel-1 Rice & Irrigation Monitoring"
+  description: "Hands-on, reproducible workflow: paddy-field map, planting index, and irrigation performance from Sentinel-1 SAR over Java, Indonesia."
+  reader-mode: true
+  page-navigation: true
+  navbar:
+    background: primary
+    search: true
+    right:
+      - icon: github
+        href: https://github.com/firmanhadi21/s1-rice-irrigation-tutorial
+        aria-label: GitHub
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - text: "Overview"
+        href: index.qmd
+      - setup.qmd
+      - section: "Core workflow"
+        contents:
+          - paddy-map.qmd
+          - planting-index.qmd
+          - irrigation-performance.qmd
+      - section: "Going further"
+        contents:
+          - growth-phase.qmd
+  page-footer:
+    center: "Sentinel-1 Rice & Irrigation Monitoring — hands-on tutorial. Java Island, Indonesia."
+
+format:
+  html:
+    theme:
+      - cosmo
+      - custom.scss
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page"
+    code-copy: true
+    code-overflow: wrap
+    code-line-numbers: false
+    fig-cap-location: bottom
+    link-external-newwindow: true
+    smooth-scroll: true

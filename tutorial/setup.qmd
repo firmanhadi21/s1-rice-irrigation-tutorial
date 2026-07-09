@@ -1,0 +1,108 @@
+---
+title: "Setup"
+subtitle: "Environment, repository, and the sample data"
+---
+
+## 1. Clone the repository
+
+Everything in this tutorial lives in the project repository, including the **trained model**,
+**DI Klambu tertiary-block boundaries**, and the **reference index outputs** you will need.
+
+```bash
+git clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git
+cd s1-rice-irrigation-tutorial
+```
+
+## 2. Create the environment
+
+The models run on **CPU** — no GPU needed. Use conda (recommended) or a plain virtualenv.
+
+```bash
+conda create -n s1rice python=3.10 -y
+conda activate s1rice
+
+pip install tensorflow rasterio geopandas rioxarray scikit-learn \
+            imbalanced-learn numpy pandas matplotlib scipy joblib \
+            earthengine-api requests
+```
+
+::: {.callout-tip}
+`rasterio` and `geopandas` pull in GDAL. If pip struggles, install them from conda-forge instead:
+`conda install -c conda-forge rasterio geopandas rioxarray -y`.
+:::
+
+Force CPU-only execution (avoids GPU/XLA issues) — the training/prediction scripts already set
+this, but for interactive use:
+
+```bash
+export CUDA_VISIBLE_DEVICES=-1
+```
+
+## 3. What ships with the repo (your sample data)
+
+You already have these after cloning — they make the workflow runnable immediately:
+
+| File | Used in |
+|---|---|
+| `model_files_paddy_vh/paddy_vh_model.keras` (+ `scaler.joblib`) | Paddy prediction |
+| `model_files_paddy_vh/training_data_*.csv` | Paddy training (29 VH features + labels) |
+| `data/training_points_paddy_binary.csv` | Training-point reference |
+| `2026/irrigation_performance/klambu.gpkg` | DI Klambu tertiary blocks |
+| `2026/irrigation_performance/*_block_results.csv` | Reference SI/CU/RI per block |
+
+The only thing missing is the **Sentinel-1 VH stack** for the AOI (too large to ship) — fetch it
+next.
+
+## 4. Fetch the sample Sentinel-1 stack
+
+Sentinel-1 GRD is free and open. We fetch a small **VH 12-day composite stack** over DI Klambu
+straight from Google Earth Engine.
+
+Authenticate once (free account):
+
+```bash
+earthengine authenticate
+```
+
+::: {.callout-tip}
+## On an HPC / headless server
+Skip interactive login: drop a **service-account key** named `ee-geodetic.json` in the repo root
+(the script auto-detects it), or pass `--service-account-key /path/to/key.json`. No browser needed.
+:::
+
+Then run the fetch script (shipped in `tutorial/scripts/`):
+
+```bash
+cd tutorial/scripts
+python fetch_sample_aoi.py --year 2024 --start-period 7 --end-period 24 \
+    --out ../../data/sample/klambu_vh_2024.tif
+```
+
+This writes `data/sample/klambu_vh_2024.tif` — a multi-band GeoTIFF with one band per 12-day
+period, named `2024_Period_7 … 2024_Period_24`, at 50 m. Verify it:
+
+```bash
+cd ../..
+gdalinfo data/sample/klambu_vh_2024.tif | head -20
+```
+
+::: {.callout-note}
+## No Earth Engine account?
+The whole workflow accepts **any** VH GeoTIFF with 12-day period bands. If you preprocess
+Sentinel-1 yourself (e.g. with ESA SNAP), just point the scripts at your own stack. The band
+naming convention is `<year>_Period_<n>`.
+:::
+
+## 5. Make an AOI mask (optional but recommended)
+
+Most scripts accept a `--mask` so processing is limited to land/AOI. For the sample you can derive
+one from the DI Klambu boundary:
+
+```bash
+# rasterize the DI boundary onto the VH grid as a 0/1 mask
+gdal_rasterize -burn 1 -tr 0.000449 0.000449 -a_nodata 0 \
+    -te 110.72 -7.10 110.94 -6.94 -ot Byte \
+    2026/irrigation_performance/klambu.gpkg data/sample/klambu_mask.tif
+```
+
+You are ready. Continue to the [**Paddy-field map**](paddy-map.qmd).

@@ -1,0 +1,57 @@
+---
+title: "Going further: growth-phase mapping with S1+S2 fusion"
+subtitle: "Why radar alone struggles with phenology — and how optical fusion helps"
+---
+
+## The limitation of VH-only phase
+
+The cycle counter in the [planting index](planting-index.qmd) chapter tells you *how many* cycles
+occur, but classifying the **exact growth stage** (flooding → vegetative → reproductive → maturity)
+from **VH alone** is hard: reproductive stages overlap in backscatter, and rainfed fields without a
+clear flooding trough lose the phenological anchor. On field data, a VH-only threshold phase model
+reached only ~32% agreement.
+
+![Per-pixel growth-phase map, MT 2024/25 (VH-based estimate).](images/fig_growth_phase_mt2024_25.png){width=90%}
+
+## Adding optical: Sentinel-1 + Sentinel-2 fusion (MOGPR)
+
+Sentinel-2 **NDVI** carries strong phenological information but is interrupted by clouds in the
+humid tropics. **MOGPR** (Multi-Output Gaussian Process Regression, from the open-source
+[FuseTS](https://github.com/Open-EO/FuseTS) toolkit) fuses the two: it uses the cross-correlation
+between VH and NDVI to fill gaps and produce a single, gap-free fused curve per pixel, which a
+time-series classifier (MiniROCKET + LightGBM) then labels by phase.
+
+In the project's evaluation (leave-one-region-out, drone-labelled points), adding optical via MOGPR
+raised generative-phase F1 from **0.52 (VH-only) → ~0.67 (fused)** — about +15 points. Optical, it
+turns out, is the determinant of phenological stage; radar provides the all-weather backbone.
+
+::: {.callout-note}
+## Open-source, not proprietary
+FuseTS/MOGPR is a free, reproducible alternative to proprietary fusion services (e.g. CropSAR) —
+important for a national agency on a public budget.
+:::
+
+## Where the fusion code lives
+
+The fusion pipeline (data cubes, MOGPR, phase classifier, multi-year phase/IP/production maps) is in
+a separate repository:
+
+- **[github.com/firmanhadi21/FuseTS](https://github.com/firmanhadi21/FuseTS)** — see
+  `scripts/extract_point_series.py`, `scripts/train_v3_mogpr_ensemble.py`, and
+  `scripts/ABLATION_HPC_RUNBOOK.md`.
+
+It requires Sentinel-2 access (Microsoft Planetary Computer) and more compute than this laptop
+tutorial, which is why it is presented here as an extension rather than a runnable step.
+
+## Recap
+
+You have now seen the whole system:
+
+1. **Paddy map** — VH phenology + SMOTE classifier + multi-year consensus.
+2. **Planting index** — data-driven cycle counting (1×/2×/3×).
+3. **Irrigation performance** — Kc + water balance → SI/CU/RI per tertiary block.
+4. **Growth phase** — S1+S2 MOGPR fusion for accurate stage mapping (extension).
+
+Together they turn free radar imagery into decision-ready information for irrigation management.
+Thank you for following along — issues and contributions are welcome on
+[GitHub](https://github.com/firmanhadi21/s1-rice-irrigation-tutorial).

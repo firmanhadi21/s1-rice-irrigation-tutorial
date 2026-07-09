@@ -1,0 +1,387 @@
+[
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup",
+    "section": "",
+    "text": "Everything in this tutorial lives in the project repository, including the trained model, DI Klambu tertiary-block boundaries, and the reference index outputs you will need.\ngit clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git\ncd s1-rice-irrigation-tutorial",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#clone-the-repository",
+    "href": "setup.html#clone-the-repository",
+    "title": "Setup",
+    "section": "",
+    "text": "Everything in this tutorial lives in the project repository, including the trained model, DI Klambu tertiary-block boundaries, and the reference index outputs you will need.\ngit clone https://github.com/firmanhadi21/s1-rice-irrigation-tutorial.git\ncd s1-rice-irrigation-tutorial",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#create-the-environment",
+    "href": "setup.html#create-the-environment",
+    "title": "Setup",
+    "section": "2. Create the environment",
+    "text": "2. Create the environment\nThe models run on CPU — no GPU needed. Use conda (recommended) or a plain virtualenv.\nconda create -n s1rice python=3.10 -y\nconda activate s1rice\n\npip install tensorflow rasterio geopandas rioxarray scikit-learn \\\n            imbalanced-learn numpy pandas matplotlib scipy joblib \\\n            earthengine-api requests\n\n\n\n\n\n\nTip\n\n\n\nrasterio and geopandas pull in GDAL. If pip struggles, install them from conda-forge instead: conda install -c conda-forge rasterio geopandas rioxarray -y.\n\n\nForce CPU-only execution (avoids GPU/XLA issues) — the training/prediction scripts already set this, but for interactive use:\nexport CUDA_VISIBLE_DEVICES=-1",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#what-ships-with-the-repo-your-sample-data",
+    "href": "setup.html#what-ships-with-the-repo-your-sample-data",
+    "title": "Setup",
+    "section": "3. What ships with the repo (your sample data)",
+    "text": "3. What ships with the repo (your sample data)\nYou already have these after cloning — they make the workflow runnable immediately:\n\n\n\n\n\n\n\nFile\nUsed in\n\n\n\n\nmodel_files_paddy_vh/paddy_vh_model.keras (+ scaler.joblib)\nPaddy prediction\n\n\nmodel_files_paddy_vh/training_data_*.csv\nPaddy training (29 VH features + labels)\n\n\ndata/training_points_paddy_binary.csv\nTraining-point reference\n\n\n2026/irrigation_performance/klambu.gpkg\nDI Klambu tertiary blocks\n\n\n2026/irrigation_performance/*_block_results.csv\nReference SI/CU/RI per block\n\n\n\nThe only thing missing is the Sentinel-1 VH stack for the AOI (too large to ship) — fetch it next.",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#fetch-the-sample-sentinel-1-stack",
+    "href": "setup.html#fetch-the-sample-sentinel-1-stack",
+    "title": "Setup",
+    "section": "4. Fetch the sample Sentinel-1 stack",
+    "text": "4. Fetch the sample Sentinel-1 stack\nSentinel-1 GRD is free and open. We fetch a small VH 12-day composite stack over DI Klambu straight from Google Earth Engine.\nAuthenticate once (free account):\nearthengine authenticate\n\n\n\n\n\n\nTipOn an HPC / headless server\n\n\n\nSkip interactive login: drop a service-account key named ee-geodetic.json in the repo root (the script auto-detects it), or pass --service-account-key /path/to/key.json. No browser needed.\n\n\nThen run the fetch script (shipped in tutorial/scripts/):\ncd tutorial/scripts\npython fetch_sample_aoi.py --year 2024 --start-period 7 --end-period 24 \\\n    --out ../../data/sample/klambu_vh_2024.tif\nThis writes data/sample/klambu_vh_2024.tif — a multi-band GeoTIFF with one band per 12-day period, named 2024_Period_7 … 2024_Period_24, at 50 m. Verify it:\ncd ../..\ngdalinfo data/sample/klambu_vh_2024.tif | head -20\n\n\n\n\n\n\nNoteNo Earth Engine account?\n\n\n\nThe whole workflow accepts any VH GeoTIFF with 12-day period bands. If you preprocess Sentinel-1 yourself (e.g. with ESA SNAP), just point the scripts at your own stack. The band naming convention is &lt;year&gt;_Period_&lt;n&gt;.",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "setup.html#make-an-aoi-mask-optional-but-recommended",
+    "href": "setup.html#make-an-aoi-mask-optional-but-recommended",
+    "title": "Setup",
+    "section": "5. Make an AOI mask (optional but recommended)",
+    "text": "5. Make an AOI mask (optional but recommended)\nMost scripts accept a --mask so processing is limited to land/AOI. For the sample you can derive one from the DI Klambu boundary:\n# rasterize the DI boundary onto the VH grid as a 0/1 mask\ngdal_rasterize -burn 1 -tr 0.000449 0.000449 -a_nodata 0 \\\n    -te 110.72 -7.10 110.94 -6.94 -ot Byte \\\n    2026/irrigation_performance/klambu.gpkg data/sample/klambu_mask.tif\nYou are ready. Continue to the Paddy-field map.",
+    "crumbs": [
+      "Setup"
+    ]
+  },
+  {
+    "objectID": "paddy-map.html",
+    "href": "paddy-map.html",
+    "title": "Paddy-field map",
+    "section": "",
+    "text": "Rice paddies have a distinctive VH backscatter trajectory — a deep flooding trough followed by a steep vegetative rise to a canopy peak. We turn a 7-period window of VH values into 29 engineered features (temporal values, differences, ratios, and phenology indicators) and classify each pixel as paddy / non-paddy.\nBecause paddy hugely outnumbers non-paddy in the training points (≈92% vs 8%), a naive model becomes over-conservative. We fix this with SMOTE (synthetic minority over-sampling) to a balanced 50/50 set — the single most important step for realistic detection.",
+    "crumbs": [
+      "Core workflow",
+      "Paddy-field map"
+    ]
+  },
+  {
+    "objectID": "paddy-map.html#the-idea",
+    "href": "paddy-map.html#the-idea",
+    "title": "Paddy-field map",
+    "section": "",
+    "text": "Rice paddies have a distinctive VH backscatter trajectory — a deep flooding trough followed by a steep vegetative rise to a canopy peak. We turn a 7-period window of VH values into 29 engineered features (temporal values, differences, ratios, and phenology indicators) and classify each pixel as paddy / non-paddy.\nBecause paddy hugely outnumbers non-paddy in the training points (≈92% vs 8%), a naive model becomes over-conservative. We fix this with SMOTE (synthetic minority over-sampling) to a balanced 50/50 set — the single most important step for realistic detection.",
+    "crumbs": [
+      "Core workflow",
+      "Paddy-field map"
+    ]
+  },
+  {
+    "objectID": "paddy-map.html#step-1-train-the-model-runs-from-shipped-data",
+    "href": "paddy-map.html#step-1-train-the-model-runs-from-shipped-data",
+    "title": "Paddy-field map",
+    "section": "Step 1 — Train the model (runs from shipped data)",
+    "text": "Step 1 — Train the model (runs from shipped data)\nThe repository ships pre-extracted features, so training needs no satellite data:\nexport CUDA_VISIBLE_DEVICES=-1\npython train_paddy_vh_smote.py\nWhat happens:\n\nloads model_files_paddy_vh/training_data_*.csv (29 VH features per point),\napplies SMOTE to balance the classes,\ntrains an MLP with 5-fold stratified cross-validation,\nwrites model_files_paddy_vh/paddy_vh_model.keras + scaler.joblib.\n\nExpected cross-validation performance (full study):\n\n\n\nMetric\nValue\n\n\n\n\nAccuracy\n95.4% ± 0.2%\n\n\nAUC-ROC\n98.3% ± 0.1%\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nA trained model already ships in model_files_paddy_vh/ — you can skip training and go straight to prediction.",
+    "crumbs": [
+      "Core workflow",
+      "Paddy-field map"
+    ]
+  },
+  {
+    "objectID": "paddy-map.html#step-2-predict-on-the-aoi-stack",
+    "href": "paddy-map.html#step-2-predict-on-the-aoi-stack",
+    "title": "Paddy-field map",
+    "section": "Step 2 — Predict on the AOI stack",
+    "text": "Step 2 — Predict on the AOI stack\nPoint the predictor at the Sentinel-1 stack you fetched in Setup. Because the sample stack is a single year starting at band 1, use --year-start-band 1 and set --year-periods to the number of bands you downloaded (periods 7–24 → 18 bands).\npython predict_paddy_vh_multiyear.py \\\n    --period 15 --year 2024 \\\n    --year-start-band 1 --year-periods 18 \\\n    --vh-stack data/sample/klambu_vh_2024.tif \\\n    --mask data/sample/klambu_mask.tif \\\n    --skip-test \\\n    --output-dir predictions_sample/2024/period_15\nOutputs (per period):\npredictions_sample/2024/period_15/\n├── paddy_predictions.tif   # 0 = non-paddy, 1 = paddy\n├── confidence.tif          # 0–1 probability\n├── paddy_map.png           # quick-look\n└── statistics.txt          # area + confidence summary\n\n\n\n\n\n\nImportantFeature window needs history\n\n\n\nThe 29 features use the current period plus the 6 previous periods. Predict on periods where at least 7 prior bands exist (e.g. period 13+ if your stack starts at period 7). For earlier periods, fetch a stack that starts earlier.\n\n\nBatch several periods to see the season evolve:\nfor p in 13 15 17 19 21 23; do\n  python predict_paddy_vh_multiyear.py --period $p --year 2024 \\\n    --year-start-band 1 --year-periods 18 \\\n    --vh-stack data/sample/klambu_vh_2024.tif --mask data/sample/klambu_mask.tif \\\n    --skip-test --output-dir predictions_sample/2024/period_$p\ndone",
+    "crumbs": [
+      "Core workflow",
+      "Paddy-field map"
+    ]
+  },
+  {
+    "objectID": "paddy-map.html#step-3-multi-year-consensus-stable-paddy",
+    "href": "paddy-map.html#step-3-multi-year-consensus-stable-paddy",
+    "title": "Paddy-field map",
+    "section": "Step 3 — Multi-year consensus (stable paddy)",
+    "text": "Step 3 — Multi-year consensus (stable paddy)\nA single period includes transient false positives. The consensus keeps only pixels detected as paddy consistently — ideally across two full years, with confidence and detection-count thresholds. With one sample year you can still build a within-year consensus:\npython create_multiyear_composite_paddy.py \\\n    --years 2024 \\\n    --periods 2024:\"13 15 17 19 21 23\" \\\n    --predictions-dir predictions_sample \\\n    --output consensus_sample \\\n    --min-years 1 --min-detections 3 \\\n    --min-confidence 0.7 --min-mean-confidence 0.6\nThe --periods flag takes one YEAR:\"p1 p2 ...\" argument per year and is repeatable — e.g. for the full two-year consensus: --periods 2024:\"7 9 11\" --periods 2025:\"7 9 11\" --min-years 2.\nThe consensus rules that matter:\n\n--min-confidence 0.7 — each detection must be confident,\n--min-detections 3 — must recur across ≥3 periods,\n--min-years 2 (full study) — must appear in both years → filters transient false positives.\n\nOn the full Java stack this yields the headline stable-paddy map:\n\n\n\nStable-paddy consensus, Java 2024∩2025 (≈3.0 million ha) — the full-study product.",
+    "crumbs": [
+      "Core workflow",
+      "Paddy-field map"
+    ]
+  },
+  {
+    "objectID": "paddy-map.html#from-detected-to-cultivated-the-cycle-based-map",
+    "href": "paddy-map.html#from-detected-to-cultivated-the-cycle-based-map",
+    "title": "Paddy-field map",
+    "section": "From “detected” to “cultivated”: the cycle-based map",
+    "text": "From “detected” to “cultivated”: the cycle-based map\nConsensus marks persistence; it does not check that a pixel truly completed a rice cycle. The recommended end-product intersects the consensus with a ≥1 complete flood→canopy cycle test (see the Planting index chapter) — this rejects persistent non-rice false positives (e.g. highland plantations) and yields the active-paddy map.\n\n\n\nRecommended cycle-based active-paddy map, MT 2024/25 (≈2.3 million ha).\n\n\nNext: turn the temporal signal into a planting index → Planting index.",
+    "crumbs": [
+      "Core workflow",
+      "Paddy-field map"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Rice & Irrigation Monitoring with Sentinel-1",
+    "section": "",
+    "text": "This tutorial walks you, end to end, through a satellite workflow that turns Sentinel-1 radar time series into three operational products for water-resources management:",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "index.html#what-you-will-build",
+    "href": "index.html#what-you-will-build",
+    "title": "Rice & Irrigation Monitoring with Sentinel-1",
+    "section": "What you will build",
+    "text": "What you will build\nBy the end you will have reproduced, over a small sample area, the full chain:\n\nA VH time-series stack for an area of interest (AOI), fetched from the cloud.\nA binary paddy map and a multi-year consensus of stable paddy.\nA cropping-intensity (planting-index) map.\nA crop-coefficient (Kc) map linking phenology to water demand.\nIrrigation-performance indices (SI/CU/RI) per tertiary block for DI Klambu.",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "index.html#the-sample-area-of-interest",
+    "href": "index.html#the-sample-area-of-interest",
+    "title": "Rice & Irrigation Monitoring with Sentinel-1",
+    "section": "The sample area of interest",
+    "text": "The sample area of interest\nTo keep everything runnable without a supercomputer, the tutorial centres on DI Klambu (Grobogan, Central Java) — the project’s flagship irrigation district (10,700 ha, 653 tertiary blocks). Its tertiary-block boundaries and reference outputs ship with the repository, and the Sentinel-1 stack for the AOI is small enough to fetch on a laptop.\n\n\n\nDI Klambu study area, Central Java.",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "index.html#how-the-workflow-is-structured",
+    "href": "index.html#how-the-workflow-is-structured",
+    "title": "Rice & Irrigation Monitoring with Sentinel-1",
+    "section": "How the workflow is structured",
+    "text": "How the workflow is structured\nThe method rests on the distinctive VH backscatter signature of rice: very low during flooding/transplanting, rising sharply through the vegetative stage to a canopy peak, then falling towards harvest. That six-stage pattern — captured every 12 days by Sentinel-1 — is what every product below is built on.\n\n\n\nCharacteristic VH backscatter profile across the rice growth cycle.",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "Rice & Irrigation Monitoring with Sentinel-1",
+    "section": "Prerequisites",
+    "text": "Prerequisites\n\nComfortable with the Linux/macOS command line and basic Python.\nA free Google Earth Engine account (to fetch the sample Sentinel-1 stack), or your own pre-processed VH stack.\n~4 GB RAM and a few GB of disk. No GPU required — the models run on CPU.\n\nStart with the Setup chapter to install the environment and fetch the sample data.\n\n\n\n\n\n\nNoteScope & honesty\n\n\n\nThis is a methods tutorial. The full Java-scale products in the reports were produced on an HPC from ~1,000 Sentinel-1 scenes; here you reproduce the same methods on a small AOI. Accuracy figures quoted are from the full study, not the toy sample.",
+    "crumbs": [
+      "Overview"
+    ]
+  },
+  {
+    "objectID": "growth-phase.html",
+    "href": "growth-phase.html",
+    "title": "Going further: growth-phase mapping with S1+S2 fusion",
+    "section": "",
+    "text": "The cycle counter in the planting index chapter tells you how many cycles occur, but classifying the exact growth stage (flooding → vegetative → reproductive → maturity) from VH alone is hard: reproductive stages overlap in backscatter, and rainfed fields without a clear flooding trough lose the phenological anchor. On field data, a VH-only threshold phase model reached only ~32% agreement.\n\n\n\nPer-pixel growth-phase map, MT 2024/25 (VH-based estimate).",
+    "crumbs": [
+      "Going further",
+      "Going further: growth-phase mapping with S1+S2 fusion"
+    ]
+  },
+  {
+    "objectID": "growth-phase.html#the-limitation-of-vh-only-phase",
+    "href": "growth-phase.html#the-limitation-of-vh-only-phase",
+    "title": "Going further: growth-phase mapping with S1+S2 fusion",
+    "section": "",
+    "text": "The cycle counter in the planting index chapter tells you how many cycles occur, but classifying the exact growth stage (flooding → vegetative → reproductive → maturity) from VH alone is hard: reproductive stages overlap in backscatter, and rainfed fields without a clear flooding trough lose the phenological anchor. On field data, a VH-only threshold phase model reached only ~32% agreement.\n\n\n\nPer-pixel growth-phase map, MT 2024/25 (VH-based estimate).",
+    "crumbs": [
+      "Going further",
+      "Going further: growth-phase mapping with S1+S2 fusion"
+    ]
+  },
+  {
+    "objectID": "growth-phase.html#adding-optical-sentinel-1-sentinel-2-fusion-mogpr",
+    "href": "growth-phase.html#adding-optical-sentinel-1-sentinel-2-fusion-mogpr",
+    "title": "Going further: growth-phase mapping with S1+S2 fusion",
+    "section": "Adding optical: Sentinel-1 + Sentinel-2 fusion (MOGPR)",
+    "text": "Adding optical: Sentinel-1 + Sentinel-2 fusion (MOGPR)\nSentinel-2 NDVI carries strong phenological information but is interrupted by clouds in the humid tropics. MOGPR (Multi-Output Gaussian Process Regression, from the open-source FuseTS toolkit) fuses the two: it uses the cross-correlation between VH and NDVI to fill gaps and produce a single, gap-free fused curve per pixel, which a time-series classifier (MiniROCKET + LightGBM) then labels by phase.\nIn the project’s evaluation (leave-one-region-out, drone-labelled points), adding optical via MOGPR raised generative-phase F1 from 0.52 (VH-only) → ~0.67 (fused) — about +15 points. Optical, it turns out, is the determinant of phenological stage; radar provides the all-weather backbone.\n\n\n\n\n\n\nNoteOpen-source, not proprietary\n\n\n\nFuseTS/MOGPR is a free, reproducible alternative to proprietary fusion services (e.g. CropSAR) — important for a national agency on a public budget.",
+    "crumbs": [
+      "Going further",
+      "Going further: growth-phase mapping with S1+S2 fusion"
+    ]
+  },
+  {
+    "objectID": "growth-phase.html#where-the-fusion-code-lives",
+    "href": "growth-phase.html#where-the-fusion-code-lives",
+    "title": "Going further: growth-phase mapping with S1+S2 fusion",
+    "section": "Where the fusion code lives",
+    "text": "Where the fusion code lives\nThe fusion pipeline (data cubes, MOGPR, phase classifier, multi-year phase/IP/production maps) is in a separate repository:\n\ngithub.com/firmanhadi21/FuseTS — see scripts/extract_point_series.py, scripts/train_v3_mogpr_ensemble.py, and scripts/ABLATION_HPC_RUNBOOK.md.\n\nIt requires Sentinel-2 access (Microsoft Planetary Computer) and more compute than this laptop tutorial, which is why it is presented here as an extension rather than a runnable step.",
+    "crumbs": [
+      "Going further",
+      "Going further: growth-phase mapping with S1+S2 fusion"
+    ]
+  },
+  {
+    "objectID": "growth-phase.html#recap",
+    "href": "growth-phase.html#recap",
+    "title": "Going further: growth-phase mapping with S1+S2 fusion",
+    "section": "Recap",
+    "text": "Recap\nYou have now seen the whole system:\n\nPaddy map — VH phenology + SMOTE classifier + multi-year consensus.\nPlanting index — data-driven cycle counting (1×/2×/3×).\nIrrigation performance — Kc + water balance → SI/CU/RI per tertiary block.\nGrowth phase — S1+S2 MOGPR fusion for accurate stage mapping (extension).\n\nTogether they turn free radar imagery into decision-ready information for irrigation management. Thank you for following along — issues and contributions are welcome on GitHub.",
+    "crumbs": [
+      "Going further",
+      "Going further: growth-phase mapping with S1+S2 fusion"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html",
+    "href": "irrigation-performance.html",
+    "title": "Irrigation performance",
+    "section": "",
+    "text": "The final step turns the satellite maps into operational irrigation indicators for a Daerah Irigasi (DI), computed per tertiary block (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:\n\n\n\n\n\n\n\n\nIndex\nMeaning\nQuestion it answers\n\n\n\n\nSI — Satisfaction Index\nadequacy\nIs each block getting enough water?\n\n\nCU — Christiansen Uniformity\nuniformity\nIs water spread evenly across the DI?\n\n\nRI — Reliability Index\ndependability\nDoes each block stay adequate over time?\n\n\n\nWe demonstrate on DI Klambu (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html#the-idea",
+    "href": "irrigation-performance.html#the-idea",
+    "title": "Irrigation performance",
+    "section": "",
+    "text": "The final step turns the satellite maps into operational irrigation indicators for a Daerah Irigasi (DI), computed per tertiary block (petak tersier). Three standard indices (FAO / Bos 1985) summarise how well the network delivers water:\n\n\n\n\n\n\n\n\nIndex\nMeaning\nQuestion it answers\n\n\n\n\nSI — Satisfaction Index\nadequacy\nIs each block getting enough water?\n\n\nCU — Christiansen Uniformity\nuniformity\nIs water spread evenly across the DI?\n\n\nRI — Reliability Index\ndependability\nDoes each block stay adequate over time?\n\n\n\nWe demonstrate on DI Klambu (Grobogan, Central Java; 653 tertiary blocks), whose block boundaries and reference results ship with the repository.",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html#step-1-crop-water-demand-the-kc-map",
+    "href": "irrigation-performance.html#step-1-crop-water-demand-the-kc-map",
+    "title": "Irrigation performance",
+    "section": "Step 1 — Crop water demand: the Kc map",
+    "text": "Step 1 — Crop water demand: the Kc map\nGrowth phase → crop coefficient (Kc) links what the satellite sees to how much water the crop needs. produce_kc_map.py estimates days-after-transplant from the VH flooding trough and maps it onto the FAO-56 rice 110-day curve (Kc 1.05 → 1.20 → 0.95 → 0).\nPass your VH stack and paddy mask with --stack / --paddy-mask. --period-band is the band index to target (it uses that band plus the 9 before it, so it needs ≥10 bands of history — with the 18-band sample, use 10–18):\npython produce_kc_map.py --period-band 14 --out kc_sample \\\n    --stack data/sample/klambu_vh_2024.tif \\\n    --paddy-mask consensus_sample/consensus_paddy_map.tif\n# → kc_sample/kc_band14.tif  (Kc per active-paddy pixel)\n\n\n\nCrop-coefficient (Kc) map, MT 2024/25 — the bridge from phenology to water demand.\n\n\n\n\n\n\n\n\nNoteExpect a sparse result on the toy AOI\n\n\n\nBecause the sample paddy mask is small (and built from just a few periods), the Kc map — and the indices downstream — may cover very few pixels. The steps below demonstrate the mechanics, not a representative result; use a fuller multi-year stack and more periods for meaningful output.",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html#step-2-water-balance-rainfall-vs-demand",
+    "href": "irrigation-performance.html#step-2-water-balance-rainfall-vs-demand",
+    "title": "Irrigation performance",
+    "section": "Step 2 — Water balance (rainfall vs demand)",
+    "text": "Step 2 — Water balance (rainfall vs demand)\nThe Satisfaction Index compares supply (rainfall — and, where available, gate/staff-gauge flows) against demand (Kc × reference evapotranspiration). The project uses CHIRPS rainfall and ET; the shipped daily series for Klambu live in 2026/irrigation_performance/ and 2026/irrigation_performance_2024_s1kc/.\n\n\n\n\n\n\nNoteSatellite-only vs water-referenced SI\n\n\n\nWithout gate-sensor data, SI is computed from active-paddy detection (a satellite proxy for adequacy). Referencing SI to actual water (gate openings) is the field-validation step planned for a later campaign — see the reports. Be explicit about which you report.",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html#step-3-compute-si-cu-ri-per-block",
+    "href": "irrigation-performance.html#step-3-compute-si-cu-ri-per-block",
+    "title": "Irrigation performance",
+    "section": "Step 3 — Compute SI / CU / RI per block",
+    "text": "Step 3 — Compute SI / CU / RI per block\ncalculate_irrigation_indices.py ties it together — it reads your per-period paddy predictions and the tertiary-block boundaries (klambu.gpkg, block-id field norec), zonally aggregates the active- paddy signal, and writes the three indices per block.\npython calculate_irrigation_indices.py \\\n    --predictions-dir predictions_sample/2024 \\\n    --periods 13 15 17 19 21 23 \\\n    --di-boundary 2026/irrigation_performance/klambu.gpkg \\\n    --output-dir irrigation_results/klambu_2024 \\\n    --confidence-threshold 0.7\nOutputs include per-block index CSVs, a DI-level summary, and time-series/histogram quick-looks in irrigation_results/klambu_2024/.\nThe repository already ships reference results you can inspect immediately:\nhead 2026/irrigation_performance/reliability_block_results.csv\ncat 2026/irrigation_performance/performance_summary.txt",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html#step-4-map-the-indices-per-block",
+    "href": "irrigation-performance.html#step-4-map-the-indices-per-block",
+    "title": "Irrigation performance",
+    "section": "Step 4 — Map the indices per block",
+    "text": "Step 4 — Map the indices per block\nmake_irrigation_maps.py renders the three choropleth panels. It reads the per-block CSVs from ./results_csv/ (a fixed location) and joins them to klambu.gpkg. The quickest way to see it is with the shipped reference results:\nmkdir -p results_csv\ncp 2026/irrigation_performance/uniformity_block_results.csv results_csv/\ncp 2026/irrigation_performance/reliability_block_results.csv results_csv/\npython make_irrigation_maps.py\n# → writes 2026/figures/fig_irrigation_klambu_maps.png\n(To map your run instead, copy the CSVs produced in Step 3 into results_csv/ before running.)\n\n\n\nPer-tertiary-block irrigation indices for DI Klambu (SI, CU, RI).",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html#reading-the-result",
+    "href": "irrigation-performance.html#reading-the-result",
+    "title": "Irrigation performance",
+    "section": "Reading the result",
+    "text": "Reading the result\nFor DI Klambu the full study finds:\n\n\n\nIndex\nValue\nCategory (FAO/Bos 1985)\n\n\n\n\nSI\n0.83\nVery good\n\n\nCU\n0.93\nVery good\n\n\nRI\n0.98\nVery good\n\n\n\nBut the operationally useful output is the spatial diagnostic: the system flags 10 problematic blocks (RI &lt; 0.75), 7 of them at the tail-end of the tertiary network — the classic head–tail inequity. Instead of inspecting all 653 blocks, the BBWS can target those 10 — the core value proposition of a satellite approach.\n\n\n\n\n\n\nTipSuggested performance thresholds (P3A contracts)\n\n\n\nA tiered scheme lets adoption start conservative and tighten over time. Tier 1: SI ≥ 0.75, CU ≥ 0.80, RI ≥ 0.70, plus cropping index ≥ 1.5.",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "irrigation-performance.html#where-to-go-next",
+    "href": "irrigation-performance.html#where-to-go-next",
+    "title": "Irrigation performance",
+    "section": "Where to go next",
+    "text": "Where to go next\nYou have reproduced the full chain on a sample DI. To scale up you would: process more Sentinel-1 periods and years, extend to more DIs, and — the key upgrade — add field validation to water-reference SI and calibrate the phase algorithm.\nFor the more accurate growth-phase product that underpins Kc, continue to Going further: S1+S2 fusion.",
+    "crumbs": [
+      "Core workflow",
+      "Irrigation performance"
+    ]
+  },
+  {
+    "objectID": "planting-index.html",
+    "href": "planting-index.html",
+    "title": "Planting index",
+    "section": "",
+    "text": "The planting index (cropping intensity, indeks pertanaman) answers how many times a field is planted in one agricultural year. We derive it directly from the VH time series with a data-driven cycle counter: no fixed calendar, no absolute-dB threshold.\nEach rice cycle is a flood trough → canopy peak swing. A per-pixel state machine walks the time series and counts a cycle whenever VH rises by at least a minimum amplitude (≈4 dB) above a running minimum, then re-arms after it falls back down. The number of complete cycles is the planting index for that pixel (reported 1 / 2 / 3+).\n\n\n\n\n\n\nNoteWhy cycle-counting, not period-counting\n\n\n\nCounting periods a pixel “looks like paddy” over-counts (transient look-alikes inflate it). Requiring a full flood→canopy amplitude swing is physically grounded and rejects those artefacts.",
+    "crumbs": [
+      "Core workflow",
+      "Planting index"
+    ]
+  },
+  {
+    "objectID": "planting-index.html#the-idea",
+    "href": "planting-index.html#the-idea",
+    "title": "Planting index",
+    "section": "",
+    "text": "The planting index (cropping intensity, indeks pertanaman) answers how many times a field is planted in one agricultural year. We derive it directly from the VH time series with a data-driven cycle counter: no fixed calendar, no absolute-dB threshold.\nEach rice cycle is a flood trough → canopy peak swing. A per-pixel state machine walks the time series and counts a cycle whenever VH rises by at least a minimum amplitude (≈4 dB) above a running minimum, then re-arms after it falls back down. The number of complete cycles is the planting index for that pixel (reported 1 / 2 / 3+).\n\n\n\n\n\n\nNoteWhy cycle-counting, not period-counting\n\n\n\nCounting periods a pixel “looks like paddy” over-counts (transient look-alikes inflate it). Requiring a full flood→canopy amplitude swing is physically grounded and rejects those artefacts.",
+    "crumbs": [
+      "Core workflow",
+      "Planting index"
+    ]
+  },
+  {
+    "objectID": "planting-index.html#step-1-validate-the-counter-optional",
+    "href": "planting-index.html#step-1-validate-the-counter-optional",
+    "title": "Planting index",
+    "section": "Step 1 — Validate the counter (optional)",
+    "text": "Step 1 — Validate the counter (optional)\ncropping_intensity.py can sanity-check its vectorized counter against an independent rice map (single/double/triple classes) before running on your stack:\npython cropping_intensity.py --mode validate \\\n    --stack data/sample/klambu_vh_2024.tif        # or your own multi-year stack\nThe mean detected cycles should increase monotonically from the single- to the triple-crop reference class — evidence the counter tracks real intensity. Verified output on the full Java stack:\nOpen-SEA CI=1: n=400 mean detected=1.77\nOpen-SEA CI=2: n=400 mean detected=2.06\nOpen-SEA CI=3: n=400 mean detected=2.31",
+    "crumbs": [
+      "Core workflow",
+      "Planting index"
+    ]
+  },
+  {
+    "objectID": "planting-index.html#step-2-compute-cropping-intensity-on-the-aoi",
+    "href": "planting-index.html#step-2-compute-cropping-intensity-on-the-aoi",
+    "title": "Planting index",
+    "section": "Step 2 — Compute cropping intensity on the AOI",
+    "text": "Step 2 — Compute cropping intensity on the AOI\nRun the full mode on your AOI stack. The candidate mask makes the result rice-specific — use your paddy consensus (recommended) or a baku-sawah/cadastre layer; without one, use --no-candidate (cycles only, less specific).\npython cropping_intensity.py --mode full \\\n    --stack &lt;your-multi-year-vh-stack.tif&gt; \\\n    --candidate-mask consensus_sample/consensus_paddy_map.tif \\\n    --output cropping_intensity_sample\n\n\n\n\n\n\nImportantFull mode needs a multi-year stack\n\n\n\n--mode full counts cycles over the MT 2024/25 agricultural-year window, which the script reads from bands 25–56 of the combined 2024–2026 stack. The small single-year sample AOI (18 bands) does not cover that window — point --stack at your full multi-year stack, or edit MT_BANDS in the script for a different band range. The --mode validate step above does run on the sample.\n\n\n\n\n\n\n\n\nNoteExpect a sparse result on the toy AOI\n\n\n\nOn the small single-year sample, the within-year consensus mask (few periods, strict thresholds) can be nearly empty, so the cropping-intensity map here is sparse and illustrative only — it shows the mechanics, not a representative product. For a meaningful map, use more periods and the full multi-year stack.\n\n\nOutputs:\ncropping_intensity_sample/\n├── cropping_intensity.tif   # uint8: 0 non-paddy, 1 / 2 / 3(=3+) crops\n├── paddy_mask.tif           # 1 where ≥1 cycle\n└── statistics.txt           # area per class + aggregate index\nstatistics.txt reports the aggregate cropping index (mean cycles over paddy) and the ha in each class.\n\n\n\n\n\n\nWarningTwo things the script handles for you\n\n\n\n\nAnomalous ~0 dB bands (acquisition/processing gaps) are auto-detected and interpolated — two such bands otherwise fake an extra canopy swing and inflate the index.\nPixel area at 50 m ≈ 0.25 ha; the script uses this, so areas are correct.",
+    "crumbs": [
+      "Core workflow",
+      "Planting index"
+    ]
+  },
+  {
+    "objectID": "planting-index.html#what-the-full-study-shows",
+    "href": "planting-index.html#what-the-full-study-shows",
+    "title": "Planting index",
+    "section": "What the full study shows",
+    "text": "What the full study shows\nOn Java for MT 2024/25, the aggregate index is ≈1.62 on the stable-consensus footprint, with a clear spatial pattern — triple-cropping concentrates along water-secure corridors (Pantura, Bengawan Solo).\n\n\n\nCropping-intensity map, MT 2024/25 (1× / 2× / 3× planting).\n\n\nAn inter-annual comparison on identical pixels rose from IP 1.45 (MT 2023/24) → 1.63 (MT 2024/25) — the planted area barely changed, but intensity went up (more double- and triple-cropping), consistent with post-El-Niño water recovery. That signal — climate variability driving cropping intensity — is the scientifically interesting part of the multi-year record.",
+    "crumbs": [
+      "Core workflow",
+      "Planting index"
+    ]
+  },
+  {
+    "objectID": "planting-index.html#choosing-the-footprint",
+    "href": "planting-index.html#choosing-the-footprint",
+    "title": "Planting index",
+    "section": "Choosing the footprint",
+    "text": "Choosing the footprint\nThe cropping-intensity extent depends on the candidate mask you pass:\n\nyour consensus mask → the map nests inside your paddy map (recommended, coherent);\na cadastre/baku-sawah mask → the map is clipped to the official footprint;\n--no-candidate → cycles over all land (rejects nothing non-rice — use with care).\n\nKeep the footprint consistent with the paddy map so the two products tell one story.\nNext: convert phenology into water demand and compute irrigation performance → Irrigation performance.",
+    "crumbs": [
+      "Core workflow",
+      "Planting index"
+    ]
+  }
+]

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Quarto build state
+/tutorial/.quarto/
+/tutorial/_freeze/
+/tutorial/site_libs/
+
+# Tutorial-generated outputs (readers create these locally)
+/data/sample/
+/predictions_sample/
+/consensus_sample/
+/cropping_intensity_sample/
+/kc_sample/
+/kc_test/
+/irrigation_results/
+/results_csv/
+
+# Secrets — never commit
+ee-geodetic.json
+*.env
+*.pem
+*.key
+
+# OS
+.DS_Store

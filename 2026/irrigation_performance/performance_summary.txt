@@ -1,0 +1,18 @@
+Irrigation Performance Summary
+============================================================
+
+Overall mean SI: 0.8326
+
+Weekly Uniformity:
+  Mean: 0.9342
+  Range: 0.8532 - 0.9995
+  Weeks with CU > 0.85: 26 / 26
+
+Block-level Uniformity:
+  Mean: 0.9433
+  Range: 0.6914 - 0.9998
+
+Reliability (SI threshold = 0.5):
+  Mean: 0.9779
+  Range: 0.5294 - 1.0000
+  Blocks with RI > 0.75: 643 / 653

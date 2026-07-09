@@ -1,0 +1,27 @@
+/*-- scss:defaults --*/
+// Water / SDA palette
+$primary:        #0F4C5C;
+$secondary:      #178A9C;
+$link-color:     #147285;
+$navbar-bg:      #0F4C5C;
+$navbar-fg:      #ffffff;
+$body-color:     #1a2b30;
+$code-bg:        #f4f8f9;
+
+/*-- scss:rules --*/
+.navbar-title { font-weight: 700; letter-spacing: .2px; }
+
+// accent rule under headings
+h2 { border-bottom: 2px solid #e2ecef; padding-bottom: .25rem; }
+
+// callout tint
+div.callout { border-left-width: 4px; }
+
+// figure captions
+figcaption, .figure-caption { color: #5A6B70; font-size: .88rem; }
+
+// code blocks
+pre.sourceCode { border: 1px solid #e2ecef; border-radius: 6px; }
+
+// "what you'll build" cards on the landing page
+.grid .card { border: 1px solid #e2ecef; border-radius: 8px; }
