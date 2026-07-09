@@ -238,7 +238,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../id/growth-phase.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2</span></a>
+ <span class="menu-text">Lanjutan: pemetaan fase tanam dengan fusi S1+S2</span></a>
   </div>
 </li>
       </ul>
@@ -327,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="langkah-1-kebutuhan-air-tanaman-peta-kc" class="level2">
 <h2 class="anchored" data-anchor-id="langkah-1-kebutuhan-air-tanaman-peta-kc">Langkah 1 — Kebutuhan air tanaman: peta Kc</h2>
-<p>Fase tumbuh → <strong>koefisien tanaman (Kc)</strong> menautkan apa yang dilihat satelit ke berapa banyak air yang dibutuhkan tanaman. <code>produce_kc_map.py</code> memperkirakan hari-setelah-tanam dari lembah genangan VH dan memetakannya ke kurva padi 110-hari FAO-56 (Kc 1,05 → 1,20 → 0,95 → 0).</p>
+<p>Fase tanam → <strong>koefisien tanaman (Kc)</strong> menautkan apa yang dilihat satelit ke berapa banyak air yang dibutuhkan tanaman. <code>produce_kc_map.py</code> memperkirakan hari-setelah-tanam dari lembah genangan VH dan memetakannya ke kurva padi 110-hari FAO-56 (Kc 1,05 → 1,20 → 0,95 → 0).</p>
 <p>Berikan tumpukan VH dan mask sawah Anda dengan <code>--stack</code> / <code>--paddy-mask</code>. <code>--period-band</code> adalah <strong>indeks pita</strong> yang ditargetkan (memakai pita itu ditambah 9 pita sebelumnya, jadi butuh ≥10 pita riwayat — dengan sampel 18-pita, gunakan 10–18):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> produce_kc_map.py <span class="at">--period-band</span> 14 <span class="at">--out</span> kc_sample <span class="dt">\</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">--stack</span> data/sample/klambu_vh_2024.tif <span class="dt">\</span></span>
@@ -447,7 +447,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ke-mana-selanjutnya" class="level2">
 <h2 class="anchored" data-anchor-id="ke-mana-selanjutnya">Ke mana selanjutnya</h2>
 <p>Anda telah mereproduksi seluruh rantai pada satu DI sampel. Untuk meningkatkan skala, Anda akan: memproses lebih banyak periode dan tahun Sentinel-1, memperluas ke lebih banyak DI, dan — peningkatan kunci — menambahkan <strong>validasi lapangan</strong> untuk mengacukan SI ke air aktual serta mengalibrasi algoritma fase.</p>
-<p>Untuk produk <strong>fase tumbuh</strong> yang lebih akurat yang mendasari Kc, lanjut ke <a href="../id/growth-phase.html">Lanjutan: fusi S1+S2</a>.</p>
+<p>Untuk produk <strong>fase tanam</strong> yang lebih akurat yang mendasari Kc, lanjut ke <a href="../id/growth-phase.html">Lanjutan: fusi S1+S2</a>.</p>
 
 
 </section>
@@ -865,8 +865,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../id/growth-phase.html" class="pagination-link" aria-label="Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2">
-        <span class="nav-page-text">Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../id/growth-phase.html" class="pagination-link" aria-label="Lanjutan: pemetaan fase tanam dengan fusi S1+S2">
+        <span class="nav-page-text">Lanjutan: pemetaan fase tanam dengan fusi S1+S2</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

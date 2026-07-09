@@ -268,7 +268,7 @@
     "href": "id/irrigation-performance.html#langkah-1-kebutuhan-air-tanaman-peta-kc",
     "title": "Kinerja irigasi",
     "section": "Langkah 1 — Kebutuhan air tanaman: peta Kc",
-    "text": "Langkah 1 — Kebutuhan air tanaman: peta Kc\nFase tumbuh → koefisien tanaman (Kc) menautkan apa yang dilihat satelit ke berapa banyak air yang dibutuhkan tanaman. produce_kc_map.py memperkirakan hari-setelah-tanam dari lembah genangan VH dan memetakannya ke kurva padi 110-hari FAO-56 (Kc 1,05 → 1,20 → 0,95 → 0).\nBerikan tumpukan VH dan mask sawah Anda dengan --stack / --paddy-mask. --period-band adalah indeks pita yang ditargetkan (memakai pita itu ditambah 9 pita sebelumnya, jadi butuh ≥10 pita riwayat — dengan sampel 18-pita, gunakan 10–18):\npython produce_kc_map.py --period-band 14 --out kc_sample \\\n    --stack data/sample/klambu_vh_2024.tif \\\n    --paddy-mask consensus_sample/consensus_paddy_map.tif\n# → kc_sample/kc_band14.tif  (Kc per piksel sawah-aktif)\n\n\n\nPeta koefisien tanaman (Kc), MT 2024/25 — jembatan dari fenologi ke kebutuhan air.\n\n\n\n\n\n\n\n\nNoteHarapkan hasil jarang pada AOI mainan\n\n\n\nKarena mask sawah sampel kecil (dan dibangun hanya dari beberapa periode), peta Kc — dan indeks di hilirnya — mungkin hanya mencakup sedikit piksel. Langkah-langkah di bawah mendemonstrasikan mekanismenya, bukan hasil representatif; gunakan tumpukan multi-tahun yang lebih lengkap dan lebih banyak periode untuk keluaran yang bermakna.",
+    "text": "Langkah 1 — Kebutuhan air tanaman: peta Kc\nFase tanam → koefisien tanaman (Kc) menautkan apa yang dilihat satelit ke berapa banyak air yang dibutuhkan tanaman. produce_kc_map.py memperkirakan hari-setelah-tanam dari lembah genangan VH dan memetakannya ke kurva padi 110-hari FAO-56 (Kc 1,05 → 1,20 → 0,95 → 0).\nBerikan tumpukan VH dan mask sawah Anda dengan --stack / --paddy-mask. --period-band adalah indeks pita yang ditargetkan (memakai pita itu ditambah 9 pita sebelumnya, jadi butuh ≥10 pita riwayat — dengan sampel 18-pita, gunakan 10–18):\npython produce_kc_map.py --period-band 14 --out kc_sample \\\n    --stack data/sample/klambu_vh_2024.tif \\\n    --paddy-mask consensus_sample/consensus_paddy_map.tif\n# → kc_sample/kc_band14.tif  (Kc per piksel sawah-aktif)\n\n\n\nPeta koefisien tanaman (Kc), MT 2024/25 — jembatan dari fenologi ke kebutuhan air.\n\n\n\n\n\n\n\n\nNoteHarapkan hasil jarang pada AOI mainan\n\n\n\nKarena mask sawah sampel kecil (dan dibangun hanya dari beberapa periode), peta Kc — dan indeks di hilirnya — mungkin hanya mencakup sedikit piksel. Langkah-langkah di bawah mendemonstrasikan mekanismenya, bukan hasil representatif; gunakan tumpukan multi-tahun yang lebih lengkap dan lebih banyak periode untuk keluaran yang bermakna.",
     "crumbs": [
       "Alur inti",
       "Kinerja irigasi"
@@ -323,7 +323,7 @@
     "href": "id/irrigation-performance.html#ke-mana-selanjutnya",
     "title": "Kinerja irigasi",
     "section": "Ke mana selanjutnya",
-    "text": "Ke mana selanjutnya\nAnda telah mereproduksi seluruh rantai pada satu DI sampel. Untuk meningkatkan skala, Anda akan: memproses lebih banyak periode dan tahun Sentinel-1, memperluas ke lebih banyak DI, dan — peningkatan kunci — menambahkan validasi lapangan untuk mengacukan SI ke air aktual serta mengalibrasi algoritma fase.\nUntuk produk fase tumbuh yang lebih akurat yang mendasari Kc, lanjut ke Lanjutan: fusi S1+S2.",
+    "text": "Ke mana selanjutnya\nAnda telah mereproduksi seluruh rantai pada satu DI sampel. Untuk meningkatkan skala, Anda akan: memproses lebih banyak periode dan tahun Sentinel-1, memperluas ke lebih banyak DI, dan — peningkatan kunci — menambahkan validasi lapangan untuk mengacukan SI ke air aktual serta mengalibrasi algoritma fase.\nUntuk produk fase tanam yang lebih akurat yang mendasari Kc, lanjut ke Lanjutan: fusi S1+S2.",
     "crumbs": [
       "Alur inti",
       "Kinerja irigasi"
@@ -332,56 +332,56 @@
   {
     "objectID": "id/growth-phase.html",
     "href": "id/growth-phase.html",
-    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "title": "Lanjutan: pemetaan fase tanam dengan fusi S1+S2",
     "section": "",
     "text": "🌐 English → · Bahasa Indonesia",
     "crumbs": [
       "Lanjutan",
-      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+      "Lanjutan: pemetaan fase tanam dengan fusi S1+S2"
     ]
   },
   {
     "objectID": "id/growth-phase.html#keterbatasan-fase-hanya-vh",
     "href": "id/growth-phase.html#keterbatasan-fase-hanya-vh",
-    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "title": "Lanjutan: pemetaan fase tanam dengan fusi S1+S2",
     "section": "Keterbatasan fase hanya-VH",
-    "text": "Keterbatasan fase hanya-VH\nPenghitung siklus pada bab indeks pertanaman memberi tahu Anda berapa banyak siklus terjadi, tetapi mengklasifikasikan tahap tumbuh yang tepat (genangan → vegetatif → reproduktif → pemasakan) dari VH saja itu sulit: tahap reproduktif tumpang-tindih dalam hamburan-balik, dan lahan tadah-hujan tanpa lembah genangan yang jelas kehilangan jangkar fenologisnya. Pada data lapangan, model fase berambang hanya-VH hanya mencapai kesepakatan ~32%.\n\n\n\nPeta fase tumbuh per piksel, MT 2024/25 (perkiraan berbasis VH).",
+    "text": "Keterbatasan fase hanya-VH\nPenghitung siklus pada bab indeks pertanaman memberi tahu Anda berapa banyak siklus terjadi, tetapi mengklasifikasikan tahap tumbuh yang tepat (genangan → vegetatif → reproduktif → pemasakan) dari VH saja itu sulit: tahap reproduktif tumpang-tindih dalam hamburan-balik, dan lahan tadah-hujan tanpa lembah genangan yang jelas kehilangan jangkar fenologisnya. Pada data lapangan, model fase berambang hanya-VH hanya mencapai kesepakatan ~32%.\n\n\n\nPeta fase tanam per piksel, MT 2024/25 (perkiraan berbasis VH).",
     "crumbs": [
       "Lanjutan",
-      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+      "Lanjutan: pemetaan fase tanam dengan fusi S1+S2"
     ]
   },
   {
     "objectID": "id/growth-phase.html#menambah-optik-fusi-sentinel-1-sentinel-2-mogpr",
     "href": "id/growth-phase.html#menambah-optik-fusi-sentinel-1-sentinel-2-mogpr",
-    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "title": "Lanjutan: pemetaan fase tanam dengan fusi S1+S2",
     "section": "Menambah optik: fusi Sentinel-1 + Sentinel-2 (MOGPR)",
     "text": "Menambah optik: fusi Sentinel-1 + Sentinel-2 (MOGPR)\nNDVI Sentinel-2 membawa informasi fenologi yang kuat tetapi terputus oleh awan di daerah tropis lembap. MOGPR (Multi-Output Gaussian Process Regression, dari perangkat sumber-terbuka FuseTS) memfusikan keduanya: ia memakai korelasi-silang antara VH dan NDVI untuk mengisi celah dan menghasilkan satu kurva terfusi bebas-celah per piksel, yang lalu dilabeli menurut fase oleh pengklasifikasi deret-waktu (MiniROCKET + LightGBM).\nDalam evaluasi proyek (leave-one-region-out, titik berlabel drone), menambahkan optik lewat MOGPR menaikkan F1 fase generatif dari 0,52 (hanya-VH) → ~0,67 (terfusi) — sekitar +15 poin. Ternyata, optiklah penentu tahap fenologis; radar menyediakan tulang punggung segala-cuaca.\n\n\n\n\n\n\nNoteSumber-terbuka, bukan berpemilik\n\n\n\nFuseTS/MOGPR adalah alternatif gratis dan dapat direproduksi terhadap layanan fusi berpemilik (mis. CropSAR) — penting bagi lembaga nasional dengan anggaran publik.",
     "crumbs": [
       "Lanjutan",
-      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+      "Lanjutan: pemetaan fase tanam dengan fusi S1+S2"
     ]
   },
   {
     "objectID": "id/growth-phase.html#di-mana-kode-fusi-berada",
     "href": "id/growth-phase.html#di-mana-kode-fusi-berada",
-    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "title": "Lanjutan: pemetaan fase tanam dengan fusi S1+S2",
     "section": "Di mana kode fusi berada",
     "text": "Di mana kode fusi berada\nAlur fusi (kubus data, MOGPR, pengklasifikasi fase, peta fase/IP/produksi multi-tahun) berada di repositori terpisah:\n\ngithub.com/firmanhadi21/FuseTS — lihat scripts/extract_point_series.py, scripts/train_v3_mogpr_ensemble.py, dan scripts/ABLATION_HPC_RUNBOOK.md.\n\nIa memerlukan akses Sentinel-2 (Microsoft Planetary Computer) dan komputasi lebih besar daripada tutorial laptop ini, itulah sebabnya disajikan di sini sebagai perluasan alih-alih langkah yang bisa dijalankan.",
     "crumbs": [
       "Lanjutan",
-      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+      "Lanjutan: pemetaan fase tanam dengan fusi S1+S2"
     ]
   },
   {
     "objectID": "id/growth-phase.html#rangkuman",
     "href": "id/growth-phase.html#rangkuman",
-    "title": "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2",
+    "title": "Lanjutan: pemetaan fase tanam dengan fusi S1+S2",
     "section": "Rangkuman",
-    "text": "Rangkuman\nKini Anda telah melihat keseluruhan sistem:\n\nPeta sawah — fenologi VH + pengklasifikasi SMOTE + konsensus lintas tahun.\nIndeks pertanaman — penghitungan siklus berbasis data (1×/2×/3×).\nKinerja irigasi — Kc + neraca air → SI/CU/RI per petak tersier.\nFase tumbuh — fusi MOGPR S1+S2 untuk pemetaan tahap yang akurat (perluasan).\n\nBersama-sama, semua itu mengubah citra radar gratis menjadi informasi siap-keputusan untuk pengelolaan irigasi. Terima kasih telah mengikuti — isu dan kontribusi dipersilakan di GitHub.",
+    "text": "Rangkuman\nKini Anda telah melihat keseluruhan sistem:\n\nPeta sawah — fenologi VH + pengklasifikasi SMOTE + konsensus lintas tahun.\nIndeks pertanaman — penghitungan siklus berbasis data (1×/2×/3×).\nKinerja irigasi — Kc + neraca air → SI/CU/RI per petak tersier.\nFase tanam — fusi MOGPR S1+S2 untuk pemetaan tahap yang akurat (perluasan).\n\nBersama-sama, semua itu mengubah citra radar gratis menjadi informasi siap-keputusan untuk pengelolaan irigasi. Terima kasih telah mengikuti — isu dan kontribusi dipersilakan di GitHub.",
     "crumbs": [
       "Lanjutan",
-      "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+      "Lanjutan: pemetaan fase tanam dengan fusi S1+S2"
     ]
   },
   {

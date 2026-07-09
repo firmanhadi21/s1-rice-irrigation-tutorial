@@ -1,5 +1,5 @@
 ---
-title: "Lanjutan: pemetaan fase tumbuh dengan fusi S1+S2"
+title: "Lanjutan: pemetaan fase tanam dengan fusi S1+S2"
 subtitle: "Mengapa radar saja kesulitan dengan fenologi — dan bagaimana fusi optik membantu"
 ---
 
@@ -15,7 +15,7 @@ reproduktif → pemasakan) dari **VH saja** itu sulit: tahap reproduktif tumpang
 hamburan-balik, dan lahan tadah-hujan tanpa lembah genangan yang jelas kehilangan jangkar fenologisnya.
 Pada data lapangan, model fase berambang hanya-VH hanya mencapai kesepakatan ~32%.
 
-![Peta fase tumbuh per piksel, MT 2024/25 (perkiraan berbasis VH).](../images/fig_growth_phase_mt2024_25.png){width=90%}
+![Peta fase tanam per piksel, MT 2024/25 (perkiraan berbasis VH).](../images/fig_growth_phase_mt2024_25.png){width=90%}
 
 ## Menambah optik: fusi Sentinel-1 + Sentinel-2 (MOGPR)
 
@@ -55,7 +55,7 @@ Kini Anda telah melihat keseluruhan sistem:
 1. **Peta sawah** — fenologi VH + pengklasifikasi SMOTE + konsensus lintas tahun.
 2. **Indeks pertanaman** — penghitungan siklus berbasis data (1×/2×/3×).
 3. **Kinerja irigasi** — Kc + neraca air → SI/CU/RI per petak tersier.
-4. **Fase tumbuh** — fusi MOGPR S1+S2 untuk pemetaan tahap yang akurat (perluasan).
+4. **Fase tanam** — fusi MOGPR S1+S2 untuk pemetaan tahap yang akurat (perluasan).
 
 Bersama-sama, semua itu mengubah citra radar gratis menjadi informasi siap-keputusan untuk pengelolaan
 irigasi. Terima kasih telah mengikuti — isu dan kontribusi dipersilakan di

@@ -24,7 +24,7 @@ petak dan hasil referensinya disertakan dalam repositori.
 
 ## Langkah 1 — Kebutuhan air tanaman: peta Kc
 
-Fase tumbuh → **koefisien tanaman (Kc)** menautkan apa yang dilihat satelit ke berapa banyak air yang
+Fase tanam → **koefisien tanaman (Kc)** menautkan apa yang dilihat satelit ke berapa banyak air yang
 dibutuhkan tanaman. `produce_kc_map.py` memperkirakan hari-setelah-tanam dari lembah genangan VH dan
 memetakannya ke kurva padi 110-hari FAO-56 (Kc 1,05 → 1,20 → 0,95 → 0).
 
@@ -135,5 +135,5 @@ memproses lebih banyak periode dan tahun Sentinel-1, memperluas ke lebih banyak 
 kunci — menambahkan **validasi lapangan** untuk mengacukan SI ke air aktual serta mengalibrasi algoritma
 fase.
 
-Untuk produk **fase tumbuh** yang lebih akurat yang mendasari Kc, lanjut ke
+Untuk produk **fase tanam** yang lebih akurat yang mendasari Kc, lanjut ke
 [Lanjutan: fusi S1+S2](growth-phase.qmd).
